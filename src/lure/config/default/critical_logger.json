@@ -1,0 +1,43 @@
+{
+    "buffer_writes": true,
+    "split_logs": false,
+    "default": {
+        "level": "critical"
+    },
+    "simulation": {
+        "level": "critical"
+    },
+    "energy_model": {
+        "level": "critical"
+    },
+    "node": {
+        "level": "critical"
+    },
+    "lmp": {
+        "level": "critical"
+    },
+    "mac": {
+        "level": "critical"
+    },
+    "ill": {
+        "level": "critical"
+    },
+    "network": {
+        "level": "critical"
+    },
+    "physical": {
+        "level": "critical"
+    },
+    "queue": {
+        "level": "critical"
+    },
+    "power_supply": {
+        "level": "critical"
+    },
+    "traffic": {
+        "level": "critical"
+    },
+    "time": {
+        "level": "critical"
+    }
+}

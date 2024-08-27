@@ -1,0 +1,26 @@
+{
+    "num_trials": 5,
+    "max_time": 300000,
+    "series": [
+        {
+            "nodes": [
+                {
+                    "type": "sender",
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": 0.1
+                        }
+                    }
+                },
+                {
+                    "type": "receiver",
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": 0.05
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

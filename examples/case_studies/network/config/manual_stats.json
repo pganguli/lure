@@ -1,0 +1,50 @@
+{
+    "level": "normal",
+    "default": "normal",
+
+    "stats": {
+        "simulation_time": "quiet",
+
+        "node_id": "quiet",
+        "node_restart": "verbose",
+        "node_die": "verbose",
+        "node_total_ontime": "quiet",
+        "node_total_offtime": "quiet",
+        "node_lifecycle_ratio": "quiet",
+        "node_traffic_rate": "quiet",
+        "node_state": "verbose",
+        "node_offtime": "verbose",
+
+        "lmp_early_die": "verbose",
+        "lmp_on_time": "verbose",
+
+        "packets_sent_app": "quiet",
+        "packets_received_app": "quiet",
+        "packets_sent_ill": "quiet",
+        "packets_received_net": "quiet",
+        "packets_generated": "normal",
+        "packets_generated_destinations": "normal",
+        "packets_in_queue": "verbose",
+        "packet_queue_events": "verbose",
+        "packet_arrival_intervals": "verbose",
+        "network_packet_trails": "normal",
+
+        "mac_is_sending": "verbose",
+        "mac_is_transmitting": "verbose",
+        "mac_is_listening": "verbose",
+        "mac_is_receiving": "verbose",
+
+        "mac_acks_received": "normal",
+        "mac_data_received": "normal",
+        "mac_control_received": "normal",
+        "mac_deaths_during_ack": "normal",
+
+        "ill_handshake": "verbose",
+
+        "storage_voltage": "verbose",
+
+        "harvester_charging_power": "verbose",
+
+        "physical_neighbors": "quiet"
+    }
+}

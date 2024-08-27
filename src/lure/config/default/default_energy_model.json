@@ -1,0 +1,7 @@
+{
+    "class": "StaticDistEnergyModel",
+    "update_interval_ms": 10000,
+    "dist_type": "GAUSSIAN",
+    "param1": 0.06,
+    "param2": 0.0024
+}

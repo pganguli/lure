@@ -1,0 +1,44 @@
+{
+    "title": "",
+    "xlabel": "Per-node traffic rate (bps)",
+    "plot_upper_bounds": true,
+    "plot_bound_intersection_vert": false,
+    "baseline": "50_50",
+    "series": {
+        "2_2": {
+            "label": "2-2",
+            "color": "b",
+            "marker": "v",
+            "markersize": 7,
+            "ls": "dashed"
+        },
+        "20_20": {
+            "label": "20-20",
+            "color": "g",
+            "marker": "^",
+            "markersize": 7,
+            "ls": "dashed"
+        },
+        "2_20": {
+            "label": "2-20",
+            "color": "r",
+            "marker": "s",
+            "markersize": 7,
+            "ls": "solid"
+        },
+        "20_2": {
+            "label": "20-2",
+            "color": "purple",
+            "marker": "o",
+            "markersize": 7,
+            "ls": "solid"
+        },
+        "50_50": {
+            "label": "50-50",
+            "color": "orange",
+            "marker": "+",
+            "markersize": 7,
+            "ls": "dashdot"
+        }
+    }
+}

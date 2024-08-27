@@ -1,0 +1,19 @@
+{
+    "series": [
+        {
+            "key": "2_2",
+            "template_node": {
+                "type": "lcr",
+                "traffic_generator": {
+                    "rate": 0.1
+                },
+                "netstack": {
+                    "ill": {
+                            "receiver_on_slots": 2,
+                            "sender_on_slots": 2
+                    }
+                }
+            }
+        }
+    ]
+}

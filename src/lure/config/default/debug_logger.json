@@ -1,0 +1,43 @@
+{
+    "buffer_writes": true,
+    "split_logs": false,
+    "default": {
+        "level": "debug"
+    },
+    "simulation": {
+        "level": "debug"
+    },
+    "energy_model": {
+        "level": "debug"
+    },
+    "node": {
+        "level": "debug"
+    },
+    "lmp": {
+        "level": "debug"
+    },
+    "mac": {
+        "level": "debug"
+    },
+    "ill": {
+        "level": "debug"
+    },
+    "queue": {
+        "level": "debug"
+    },
+    "network": {
+        "level": "debug"
+    },
+    "physical": {
+        "level": "debug"
+    },
+    "power_supply": {
+        "level": "debug"
+    },
+    "traffic": {
+        "level": "debug"
+    },
+    "time": {
+        "level": "debug"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "traffic_generator": {
+        "rate": [0.00001, 0.0001, 0.001, 0.01, 0.1, 1]
+    },
+    "power_supply": {
+        "initial_charge_percent": "random_uniform"
+    },
+    "netstack": {
+        "ill": {
+            "max_total_queue_size": 10000
+        }
+    }
+}

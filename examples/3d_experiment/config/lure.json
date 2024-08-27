@@ -1,0 +1,141 @@
+{
+    "num_procs": 5,
+    "logger": {
+        "type": "critical"
+    },
+    "experiments": [
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 5
+                            } 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 10
+                            } 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 20
+                            } 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 40
+                            } 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 80
+                            } 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 160
+                            } 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "3d_example",
+            "series": [
+                {
+                    "nodes": [
+                        {
+                            "lmp" : {
+                                "on_time_ms": [5, 10, 20, 40, 80, 160, 320]
+                            }
+                        },
+                        {
+                            "lmp" : {
+                                "on_time_ms": 320
+                            } 
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

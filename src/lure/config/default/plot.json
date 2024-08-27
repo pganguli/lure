@@ -1,0 +1,50 @@
+{
+    "title": "",
+    "plot_upper_bounds" : 0,
+    "plot_bound_intersection_vert": 0,
+    "xlabel": "Per node traffic rate (bps)",
+    "series": {
+        "naive": {
+            "label": "Naive",
+            "color": "b",
+            "marker": "+",
+            "markersize": 7,
+            "ls": "dashed"
+        },
+        "only-lmp2": {
+            "label": "Naive-LMP2",
+            "color": "MediumTurquoise",
+            "marker": "x",
+            "markersize": 7,
+            "ls": "dashed"
+        },
+        "only-queue": {
+            "label": "Minimal",
+            "color": "purple",
+            "marker": "s",
+            "markersize": 7,
+            "ls": "dashdot"
+        },
+        "lmp2+queue": {
+            "label": "Minimal-LMP2",
+            "color": "orange",
+            "marker": "o",
+            "markersize": 7,
+            "ls": "dashdot"
+        },
+        "lmp2+queue+disable": {
+            "label": "Full",
+            "color": "g",
+            "marker": "v",
+            "markersize": 7,
+            "ls": "solid"
+        },
+        "rx20-tx2": {
+            "label": "Adaptive",
+            "color": "r",
+            "marker": "^",
+            "markersize": 7,
+            "ls": "solid"
+        }
+    }
+}

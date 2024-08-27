@@ -1,0 +1,7 @@
+{
+    "power_supply": {
+        "harvester": {
+            "lifecycle_ratio": [0.01, 0.2]
+        }
+    }
+}

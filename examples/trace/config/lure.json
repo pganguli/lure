@@ -1,0 +1,30 @@
+{
+    "num_procs": 1,
+    "logger": {
+        "type": "debug"
+    },
+    "stats": {
+        "level": "verbose"
+    },
+    "experiments": [
+        {
+            "num_trials": 1,
+            "max_time": 60000,
+            "series": [
+                {
+                    "key": "trace-example-series-1",
+                    "template_node": {
+                        "power_supply": {
+                            "harvester": {
+                                "lifecycle_ratio": 0.1
+                            }
+                        },
+                        "traffic_generator": {
+                            "rate": 0.1
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

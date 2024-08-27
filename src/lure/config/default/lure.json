@@ -1,0 +1,22 @@
+{
+    "logger": {
+        "type": "critical"
+    },
+    "stats": {
+        "level": "normal"
+    },
+    "email_config" : {
+        "body" : "New Test Done",
+        "sender" : "",
+        "recipients" : [""],
+        "server": "localhost"
+    },
+    "num_procs": 20,
+    "experiments": [
+        {
+            "type": "my_experiment",
+            "num_trials": 40,
+            "max_time": 36000000
+        }
+    ]
+}

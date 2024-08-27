@@ -1,0 +1,39 @@
+{
+    "buffer_writes": true,
+    "default": {
+        "level": "info"
+    },
+    "simulation": {
+        "level": "info"
+    },
+    "energy_model": {
+        "level": "info"
+    },
+    "node": {
+        "level": "info"
+    },
+    "lmp": {
+        "level": "info"
+    },
+    "mac": {
+        "level": "info"
+    },
+    "ill": {
+        "level": "info"
+    },
+    "queue": {
+        "level": "info"
+    },
+    "network": {
+        "level": "info"
+    },
+    "power_supply": {
+        "level": "info"
+    },
+    "traffic": {
+        "level": "info"
+    },
+    "time": {
+        "level": "info"
+    }
+}

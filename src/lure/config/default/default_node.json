@@ -1,0 +1,61 @@
+{
+    "time_module": {
+        "class": "TimeModule",
+        "active_clock": {
+            "class": "ActiveClock",
+            "drift": 0,
+            "skew": 0
+        }
+    },
+    "power_supply": {
+        "class": "ThresholdPowerSupply",
+        "threshold_to_die_v": 1.0,
+        "threshold_to_restart_v": 1.23,
+        "initial_charge_percent": 100,
+        "storage": {
+            "class": "Capacitor",
+            "capacitance_mf": 50.0,
+            "max_voltage": 2.0
+        },
+        "harvester": {
+            "class": "LifecycleRatioHarvester",
+            "lifecycle_ratio": 0.01,
+            "loss_factor": 0
+        }
+    },
+    "lmp": {
+        "class": "FixedLMP",
+        "on_time_ms": 10
+    },
+    "netstack": {
+        "class": "Netstack",
+        "slot_length": 5,
+        "mac": {
+            "class": "iMAC",
+            "backoff_slots": 2,
+            "ack_fraction": 0.4
+        },
+        "ill": {
+            "class": "GILL",
+            "receiver_on_slots": 20,
+            "sender_on_slots": 2,
+            "max_total_queue_size": 100
+        },
+        "network": {
+            "class": "SingleHopNetwork"
+        },
+        "physical": {
+            "class": "AllNodesPhysical",
+            "use_promiscuous_mode": false
+        }
+    },
+    "traffic_generator": {
+        "class": "PoissonTrafficGenerator",
+        "rate": 0.001
+    },
+    "radio_discharge_rate_w": 0.06,
+    "boot_discharge_rate_w": 0.042,
+    "sleep_discharge_rate_w": 0.00255,
+    "os_boot_time_ms": 15,
+    "clock_read_time_ms": 0
+}

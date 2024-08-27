@@ -1,0 +1,16 @@
+{
+    "logger": {
+        "type": "critical"
+    },
+    "stats": {
+        "type": "manual"
+    },
+    "num_procs": 20,
+    "experiments": [
+        {
+            "type": "hex-lcr-1",
+            "num_trials": 20,
+            "max_packets": 10000
+        }
+    ]
+}

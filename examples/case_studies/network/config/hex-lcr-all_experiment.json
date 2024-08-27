@@ -1,0 +1,75 @@
+{
+    "series": [
+        {
+            "key": "0.001-traffic",
+            "nodes": [
+                {
+                    "type": "nodes/n0",
+                    "traffic_generator": {
+                        "rate": 0.001
+                    },
+                    "power_supply": {
+                        "harvester": { 
+                            "lifecycle_ratio": [0.02, 0.2]
+                        }
+                    }
+                },
+                {
+                    "type": "nodes/n1",
+                    "traffic_generator": {
+                        "rate": 0.001
+                    },
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": [0.02, 0.2]
+                        }
+                    }
+                },
+                {
+                    "type": "nodes/n2",
+                    "traffic_generator": {
+                        "rate": 0.001
+                    },
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": [0.02, 0.2]
+                        }
+                    }
+                },
+                {
+                    "type": "nodes/n3",
+                    "traffic_generator": {
+                        "rate": 0.001
+                    },
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": [0.02, 0.2]
+                        }
+                    }
+                },
+                {
+                    "type": "nodes/n4",
+                    "traffic_generator": {
+                        "rate": 0.001
+                    },
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": [0.02, 0.2]
+                        }
+                    }
+                },
+                {
+                    "type": "nodes/n5",
+                    "traffic_generator": {
+                        "rate": 0.001
+                    },
+                    "power_supply": {
+                        "harvester": {
+                            "lifecycle_ratio": [0.02, 0.2]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

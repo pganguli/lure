@@ -1,0 +1,55 @@
+{
+    "series": [
+        {
+            "key": "2_2",
+            "template_node": {
+                "type": "traffic",
+                "power_supply": {
+                    "harvester": {
+                        "lifecycle_ratio": 0.03
+                    }
+                },
+                "netstack": {
+                    "ill": {
+                            "receiver_on_slots": 2,
+                            "sender_on_slots": 2
+                    }
+                }
+            }
+        },
+        {
+            "key": "2_20",
+            "template_node": {
+                "type": "traffic",
+                "power_supply": {
+                    "harvester": {
+                        "lifecycle_ratio": 0.03
+                    }
+                },
+                "netstack": {
+                    "ill": {
+                            "receiver_on_slots": 2,
+                            "sender_on_slots": 20
+                    }
+                }
+            }
+        },
+        {
+            "key": "20_2",
+            "template_node": {
+                "type": "traffic",
+                "power_supply": {
+                    "harvester": {
+                        "lifecycle_ratio": 0.03
+                    }
+                },
+                "netstack": {
+                    "ill": {
+                            "receiver_on_slots": 20,
+                            "sender_on_slots": 2
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "logger": {
+        "type": "critical"
+    },
+    "stats": {
+        "level": "verbose"
+    },
+    "num_procs": 1,
+    "experiments": [
+        {
+            "type": "lcr_highlambda",
+            "num_trials": 1,
+            "max_packets": 1000
+        }
+    ]
+}

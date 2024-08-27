@@ -1,0 +1,65 @@
+{
+    "time_module": {
+        "class": "SSTFTSPTimeModule",
+        "sync_period": 30000,
+        "reg_table_size": 10,
+        "dead_period_window": 5,
+        "root_timeout": 180000,
+        "max_ontimes_to_send_ts": 5,
+        "active_clock": {
+            "class": "ActiveClock",
+            "drift": 0,
+            "skew": 0
+        },
+        "persistent_clock": {
+            "class": "TenPerPersistentClock"
+        }
+    },
+    "power_supply": {
+        "class": "ThresholdPowerSupply",
+        "threshold_to_die_v": 1.0,
+        "threshold_to_restart_v": 1.23,
+        "storage": {
+            "class": "Capacitor",
+            "capacitance_mf": 50.0,
+            "max_voltage": 2.0
+        },
+        "harvester": {
+            "lifecycle_ratio": [
+                0.05,
+                0.1,
+                0.25,
+                0.42,
+                0.63,
+                0.83
+            ]
+        }
+    },
+    "lmp": {
+        "class": "FixedLMP"
+    },
+    "netstack": {
+        "slot_length": 5,
+        "ill": {
+            "class": "BasicILL"
+        },
+        "network": {
+            "class": "StaticNetwork"
+        },
+        "physical": {
+            "class": "ManualPhysical"
+        }
+    },
+    "traffic_generator": {
+        "class": "NeverTrafficGenerator"
+    },
+    "stats": {
+        "level": "quiet",
+        "default": "silent",
+        "stats": {
+            "node_restart": "silent",
+            "node_die": "silent",
+            "succ_comm": "silent"
+        }
+    }
+}

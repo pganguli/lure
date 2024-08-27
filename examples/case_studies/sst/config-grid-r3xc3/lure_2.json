@@ -1,0 +1,13 @@
+{
+    "logger": {
+        "type": "critical"
+    },
+    "num_procs": 25,
+    "experiments": [
+        {
+            "type": "sst_2",
+            "num_trials": 25,
+            "max_time": 25000000
+        }
+    ]
+}

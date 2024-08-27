@@ -1,0 +1,15 @@
+{
+    "node_id": 0,
+    "lmp": {
+        "class": "FixedLMP",
+        "on_time_ms": 10
+    },
+    "netstack": {
+        "ill": {
+            "class": "BasicILL"
+        }
+    },
+    "traffic_generator": {
+        "class": "NeverTrafficGenerator"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "netstack": {
+        "ill": {
+            "max_total_queue_size": 100,
+            "receiver_on_slots": 2,
+            "sender_on_slots": 2
+        },
+        "network": {
+            "class": "StaticNetwork",
+            "routes": {
+                "0": 5,
+                "1": 5,
+                "2": 3,
+                "3": 3,
+                "5": 5
+            }
+        },
+        "physical": {
+            "class": "ManualPhysical",
+            "neighbor_ids" : "3,5"
+        }
+    },
+    "node_id": 4
+}

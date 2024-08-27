@@ -1,0 +1,34 @@
+{
+    "logger": {
+        "type": "critical",
+        "buffer_writes": true
+    },
+    "num_procs": 40,
+    "experiments": [
+        {
+            "type": "traffic_0.2-lcr",
+            "num_trials": 40,
+            "max_packets": 1000
+        },
+        {
+            "type": "traffic_0.13-lcr",
+            "num_trials": 40,
+            "max_packets": 1000
+        },
+        {
+            "type": "traffic_0.05-lcr",
+            "num_trials": 40,
+            "max_packets": 1000
+        },
+        {
+            "type": "traffic_0.03-lcr",
+            "num_trials": 40,
+            "max_packets": 1000
+        },
+        {
+            "type": "traffic_0.005-lcr",
+            "num_trials": 40,
+            "max_packets": 1000
+        }
+    ]
+}

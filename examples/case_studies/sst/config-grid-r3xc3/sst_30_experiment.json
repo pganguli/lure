@@ -1,0 +1,62 @@
+{
+    "energy_model": {
+        "class": "StaticDistEnergyModel",
+        "update_interval_ms": 10000,
+        "dist_type": "GAUSSIAN",
+        "param1": 0.06,
+        "param2": 0.01
+    },
+    "series": [
+        {
+            "type": "sst",
+            "key": "30",
+            "nodes": [
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                },
+                {
+                    "lmp": {
+                        "on_time_ms": 150
+                    }
+                }
+            ]
+        }
+    ]
+}

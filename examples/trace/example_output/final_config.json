@@ -1,0 +1,318 @@
+{
+    "num_procs": 1,
+    "experiments": [
+        {
+            "num_trials": 1,
+            "max_time": 60000,
+            "max_packets": 0,
+            "energy_model": {
+                "class": "StaticDistEnergyModel",
+                "update_interval_ms": 10000,
+                "dist_type": "GAUSSIAN",
+                "param1": 0.06,
+                "param2": 0.0024
+            },
+            "series": [
+                {
+                    "key": "trace-example-series-1",
+                    "nodes": [
+                        {
+                            "time_module": {
+                                "class": "TimeModule",
+                                "active_clock": {
+                                    "class": "ActiveClock",
+                                    "drift": 0,
+                                    "skew": 0
+                                }
+                            },
+                            "power_supply": {
+                                "class": "ThresholdPowerSupply",
+                                "threshold_to_die_v": 1.0,
+                                "threshold_to_restart_v": 1.23,
+                                "initial_charge_percent": 100,
+                                "storage": {
+                                    "class": "Capacitor",
+                                    "capacitance_mf": 50.0,
+                                    "max_voltage": 2.0
+                                },
+                                "harvester": {
+                                    "class": "LifecycleRatioHarvester",
+                                    "lifecycle_ratio": 0.1,
+                                    "loss_factor": 0
+                                }
+                            },
+                            "lmp": {
+                                "class": "FixedLMP",
+                                "on_time_ms": 10
+                            },
+                            "netstack": {
+                                "class": "Netstack",
+                                "slot_length": 5,
+                                "mac": {
+                                    "class": "iMAC",
+                                    "backoff_slots": 2,
+                                    "ack_fraction": 0.4
+                                },
+                                "ill": {
+                                    "class": "GILL",
+                                    "receiver_on_slots": 20,
+                                    "sender_on_slots": 2,
+                                    "max_total_queue_size": 100
+                                },
+                                "network": {
+                                    "class": "SingleHopNetwork"
+                                },
+                                "physical": {
+                                    "class": "AllNodesPhysical",
+                                    "use_promiscuous_mode": false
+                                }
+                            },
+                            "traffic_generator": {
+                                "class": "PoissonTrafficGenerator",
+                                "rate": 0.1
+                            },
+                            "radio_discharge_rate_w": 0.06,
+                            "boot_discharge_rate_w": 0.042,
+                            "sleep_discharge_rate_w": 0.00255,
+                            "os_boot_time_ms": 15,
+                            "clock_read_time_ms": 0,
+                            "logger": {
+                                "buffer_writes": true,
+                                "default": {
+                                    "level": "debug"
+                                },
+                                "simulation": {
+                                    "level": "debug"
+                                },
+                                "energy_model": {
+                                    "level": "debug"
+                                },
+                                "node": {
+                                    "level": "debug"
+                                },
+                                "lmp": {
+                                    "level": "debug"
+                                },
+                                "mac": {
+                                    "level": "debug"
+                                },
+                                "ill": {
+                                    "level": "debug"
+                                },
+                                "queue": {
+                                    "level": "debug"
+                                },
+                                "network": {
+                                    "level": "debug"
+                                },
+                                "power_supply": {
+                                    "level": "debug"
+                                },
+                                "traffic": {
+                                    "level": "debug"
+                                },
+                                "time": {
+                                    "level": "debug"
+                                },
+                                "split_logs": false,
+                                "physical": {
+                                    "level": "debug"
+                                }
+                            },
+                            "stats": {
+                                "level": "verbose",
+                                "default": "normal",
+                                "stats": {
+                                    "simulation_time": "quiet",
+                                    "node_id": "quiet",
+                                    "node_restart": "normal",
+                                    "node_die": "normal",
+                                    "node_total_ontime": "quiet",
+                                    "node_total_offtime": "quiet",
+                                    "node_lifecycle_ratio": "quiet",
+                                    "node_traffic_rate": "quiet",
+                                    "node_state": "verbose",
+                                    "lmp_early_die": "verbose",
+                                    "lmp_on_time": "verbose",
+                                    "packets_sent_app": "quiet",
+                                    "packets_received_app": "quiet",
+                                    "packets_sent_ill": "quiet",
+                                    "packets_dropped_ill": "quiet",
+                                    "packets_received_net": "quiet",
+                                    "packets_generated": "normal",
+                                    "packets_generated_destinations": "verbose",
+                                    "packets_in_queue": "verbose",
+                                    "packet_queue_events": "normal",
+                                    "packet_arrival_intervals": "verbose",
+                                    "network_packet_trails": "verbose",
+                                    "network_neighbors": "quiet",
+                                    "network_broadcasts": "verbose",
+                                    "mac_is_sending": "verbose",
+                                    "mac_is_transmitting": "verbose",
+                                    "mac_is_listening": "verbose",
+                                    "mac_is_receiving": "verbose",
+                                    "mac_acks_received": "normal",
+                                    "mac_data_received": "normal",
+                                    "mac_control_received": "normal",
+                                    "mac_deaths_during_ack": "normal",
+                                    "ill_handshake": "normal",
+                                    "storage_voltage": "verbose",
+                                    "harvester_charging_power": "verbose",
+                                    "physical_neighbors": "quiet"
+                                }
+                            },
+                            "node_id": 0
+                        },
+                        {
+                            "time_module": {
+                                "class": "TimeModule",
+                                "active_clock": {
+                                    "class": "ActiveClock",
+                                    "drift": 0,
+                                    "skew": 0
+                                }
+                            },
+                            "power_supply": {
+                                "class": "ThresholdPowerSupply",
+                                "threshold_to_die_v": 1.0,
+                                "threshold_to_restart_v": 1.23,
+                                "initial_charge_percent": 100,
+                                "storage": {
+                                    "class": "Capacitor",
+                                    "capacitance_mf": 50.0,
+                                    "max_voltage": 2.0
+                                },
+                                "harvester": {
+                                    "class": "LifecycleRatioHarvester",
+                                    "lifecycle_ratio": 0.1,
+                                    "loss_factor": 0
+                                }
+                            },
+                            "lmp": {
+                                "class": "FixedLMP",
+                                "on_time_ms": 10
+                            },
+                            "netstack": {
+                                "class": "Netstack",
+                                "slot_length": 5,
+                                "mac": {
+                                    "class": "iMAC",
+                                    "backoff_slots": 2,
+                                    "ack_fraction": 0.4
+                                },
+                                "ill": {
+                                    "class": "GILL",
+                                    "receiver_on_slots": 20,
+                                    "sender_on_slots": 2,
+                                    "max_total_queue_size": 100
+                                },
+                                "network": {
+                                    "class": "SingleHopNetwork"
+                                },
+                                "physical": {
+                                    "class": "AllNodesPhysical",
+                                    "use_promiscuous_mode": false
+                                }
+                            },
+                            "traffic_generator": {
+                                "class": "PoissonTrafficGenerator",
+                                "rate": 0.1
+                            },
+                            "radio_discharge_rate_w": 0.06,
+                            "boot_discharge_rate_w": 0.042,
+                            "sleep_discharge_rate_w": 0.00255,
+                            "os_boot_time_ms": 15,
+                            "clock_read_time_ms": 0,
+                            "logger": {
+                                "buffer_writes": true,
+                                "default": {
+                                    "level": "debug"
+                                },
+                                "simulation": {
+                                    "level": "debug"
+                                },
+                                "energy_model": {
+                                    "level": "debug"
+                                },
+                                "node": {
+                                    "level": "debug"
+                                },
+                                "lmp": {
+                                    "level": "debug"
+                                },
+                                "mac": {
+                                    "level": "debug"
+                                },
+                                "ill": {
+                                    "level": "debug"
+                                },
+                                "queue": {
+                                    "level": "debug"
+                                },
+                                "network": {
+                                    "level": "debug"
+                                },
+                                "power_supply": {
+                                    "level": "debug"
+                                },
+                                "traffic": {
+                                    "level": "debug"
+                                },
+                                "time": {
+                                    "level": "debug"
+                                },
+                                "split_logs": false,
+                                "physical": {
+                                    "level": "debug"
+                                }
+                            },
+                            "stats": {
+                                "level": "verbose",
+                                "default": "normal",
+                                "stats": {
+                                    "simulation_time": "quiet",
+                                    "node_id": "quiet",
+                                    "node_restart": "normal",
+                                    "node_die": "normal",
+                                    "node_total_ontime": "quiet",
+                                    "node_total_offtime": "quiet",
+                                    "node_lifecycle_ratio": "quiet",
+                                    "node_traffic_rate": "quiet",
+                                    "node_state": "verbose",
+                                    "lmp_early_die": "verbose",
+                                    "lmp_on_time": "verbose",
+                                    "packets_sent_app": "quiet",
+                                    "packets_received_app": "quiet",
+                                    "packets_sent_ill": "quiet",
+                                    "packets_dropped_ill": "quiet",
+                                    "packets_received_net": "quiet",
+                                    "packets_generated": "normal",
+                                    "packets_generated_destinations": "verbose",
+                                    "packets_in_queue": "verbose",
+                                    "packet_queue_events": "normal",
+                                    "packet_arrival_intervals": "verbose",
+                                    "network_packet_trails": "verbose",
+                                    "network_neighbors": "quiet",
+                                    "network_broadcasts": "verbose",
+                                    "mac_is_sending": "verbose",
+                                    "mac_is_transmitting": "verbose",
+                                    "mac_is_listening": "verbose",
+                                    "mac_is_receiving": "verbose",
+                                    "mac_acks_received": "normal",
+                                    "mac_data_received": "normal",
+                                    "mac_control_received": "normal",
+                                    "mac_deaths_during_ack": "normal",
+                                    "ill_handshake": "normal",
+                                    "storage_voltage": "verbose",
+                                    "harvester_charging_power": "verbose",
+                                    "physical_neighbors": "quiet"
+                                }
+                            },
+                            "node_id": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
