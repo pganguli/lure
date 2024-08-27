@@ -1,4 +1,4 @@
-Lure Performance Evaluation 2024 Artifact
+Lure Performance Evaluation 2024
 
 Copyright 2024 The Lure Authors
 
@@ -6,3 +6,14 @@ This product includes software developed at
 the Iowa State University Duwe Lab
 (https://www.ece.iastate.edu/~duwe/#/home).
 
+This product includes 
+
+[SimPy](https://simpy.readthedocs.io/en/latest/about/license.html) - Licensed under MIT
+[Matplotlib](https://matplotlib.org/stable/users/project/license.html) - BSD-compatible
+[SciPy](https://github.com/scipy/scipy/blob/main/LICENSE.txt) - Licensed under BSD 3-Clause
+[alive_progress](https://github.com/rsalmei/alive-progress/blob/main/LICENSE) - Licensed under MIT
+[SymPy](https://github.com/sympy/sympy/blob/master/LICENSE) - Licensed under BSD 3-Clause
+[Seaborn](https://github.com/mwaskom/seaborn/blob/master/LICENSE.md) - Licensed under BSD 3-Clause
+[NetworkX](https://github.com/networkx/networkx/blob/main/LICENSE.txt) - Licensed under BSD 3-Clause
+[scikit-learn](https://github.com/scikit-learn/scikit-learn/blob/main/COPYING) - Licensed under BSD 3-Clause
+[statsmodels](https://github.com/statsmodels/statsmodels/blob/main/LICENSE.txt) - Licensed under BSD 3-Clause

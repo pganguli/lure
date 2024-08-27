@@ -1,3 +1,42 @@
+# Release
+All notable changes to the repository and the releases are documented in this file for reference.
+## Overview
+
+* [v0.1](#v0.1)
+* [Rel1.0](#Rel1.0)
+* [Template](#template)
+* [License](#license)
+
+## <a name="v0.1"></a> v0.1
+
+* Added a README_pre_release.md file documenting the project overview to provide a permanent repo link for Lure Perforamance Evaluation submission [README_pre_release](README_pre_release).
+
+## <a name="Rel1.0"></a> Rel1.0
+
+### Added
+* Added all of Lure simulator files after Performance Evaluation Journal acceptance decision.
+
+## <a name="template"></a> Template
+
+### Added
+* New Software files
+
+### Changed
+* Changes to existing repository by adding new files
+
+### Deprecated
+* No files removed
+
+### Removed
+* No files removed
+
+### Fixed
+* No Fixes
+
+### Security
+* No changes
+
+# License
 BSD 3-Clause License
 
 Copyright (c) 2024 The Lure Authors

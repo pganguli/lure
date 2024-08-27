@@ -1,12 +1,20 @@
 # Lure
 Lure is a SimPy-based simulator designed for simulating and evaluating batteryless intermittent sensor networks (BISNs).
 
+## How to cite Lure
+[DOI](https://doi.org/10.5281/zenodo.11062223): permanent DOI
+
+[DOI](https://doi.org/10.5281/zenodo.13380249): Specific version of Lure (Rel 1.0) 
+
+##### Note: The above DOI is to cite the specific version of this repo, containing the software used to generate the results for Lure as reported in Performance Evaluation 2024. 
+
+
 ## Installation
 
 ### From source
 1. Clone from GitLab
 
-	`git clone [TODO]`
+	`git clone https://git.ece.iastate.edu/batteryless-comm/lure.git`
 
 1. Set up and activate a Python virtual environment with Python 3
 1. Install Lure in developer mode (run from the directory containing this README)
@@ -113,8 +121,6 @@ The examples in the `examples` directory have some starter templates for how plo
 
 ## Configurations
 
-## Contributing to core
-TODO
 
 ## Docs
 See the README in `docs/`.
