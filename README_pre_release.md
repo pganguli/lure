@@ -5,4 +5,4 @@ This is the future home of the public repository for the Lure batteryless interm
 
 # How to cite this
 
-10.5281/zenodo.11062224 - permanent DOI
+10.5281/zenodo.11062223 - permanent DOI
