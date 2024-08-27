@@ -6,6 +6,8 @@ Lure is a SimPy-based simulator designed for simulating and evaluating batteryle
 
 [DOI](https://doi.org/10.5281/zenodo.13380249): Specific version of Lure (Rel 1.0) 
 
+[DOI](https://doi.org/10.1016/j.peva.2024.102440): To cite Lure paper
+
 ##### Note: The above DOI is to cite the specific version of this repo, containing the software used to generate the results for Lure as reported in Performance Evaluation 2024. 
 
 
