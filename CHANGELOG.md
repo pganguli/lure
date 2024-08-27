@@ -3,7 +3,7 @@ All notable changes to the repository and the releases are documented in this fi
 ## Overview
 
 * [v0.1](#v0.1)
-* [Rel1.0](#Rel1.0)
+* [v1.0](#v1.0)
 * [Template](#template)
 * [License](#license)
 
@@ -11,7 +11,7 @@ All notable changes to the repository and the releases are documented in this fi
 
 * Added a README_pre_release.md file documenting the project overview to provide a permanent repo link for Lure Perforamance Evaluation submission [README_pre_release](README_pre_release).
 
-## <a name="Rel1.0"></a> Rel1.0
+## <a name="v1.0"></a> v1.0
 
 ### Added
 * Added all of Lure simulator files after Performance Evaluation Journal acceptance decision.
