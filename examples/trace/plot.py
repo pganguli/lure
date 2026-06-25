@@ -2,7 +2,7 @@ from lure.lure import Lure
 from lure.node.stats import StatType
 from lure.plotter import Plotter
 
-results = Lure.load_results("output")
+results = Lure.load_results("example_output")
 
 ts_names = [
     StatType.HARVESTER_CHARGING_POWER,
