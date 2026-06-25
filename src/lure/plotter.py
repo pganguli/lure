@@ -33,7 +33,7 @@ class Plotter:
         trials=None,
         results=None,
         output_dir="output/figures/",
-        extension="png",
+        extension="pdf",
         plotter_config=PlotterConfig(),
     ):
         # {'date-1':analyzer_1, 'date-2':analyzer_2, ...,}

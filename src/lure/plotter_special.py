@@ -345,7 +345,7 @@ class PlotterSpecial:
         ax.ticklabel_format(useOffset=False)
         plt.show()
 
-        plt.savefig(f"{self.save_fig_dir}mac_states.png")
+        plt.savefig(f"{self.save_fig_dir}mac_states.pdf")
         plt.close()
 
     def net_traffic_bar_graph(self, nodes: List[int] = None):
@@ -418,7 +418,7 @@ class PlotterSpecial:
 
         fig.tight_layout()
 
-        plt.savefig(self.save_fig_dir + "bar_graph.png")
+        plt.savefig(self.save_fig_dir + "bar_graph.pdf")
 
     def packet_delivery_ratio_bar_graph(
         self,
