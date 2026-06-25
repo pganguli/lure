@@ -1,6 +1,6 @@
-
 from typing import List, TYPE_CHECKING
 import simpy
+
 if TYPE_CHECKING:
     from lure.node.net.mac.mac import MAC
     from lure.node.net.ill.ill import ILL
@@ -13,8 +13,8 @@ from lure.node.stats import Stats, StatsProvider
 
 
 class Netstack(StatsProvider):
-    """The netstack belonging to a single node. Is a StatsProvider.
-    """
+    """The netstack belonging to a single node. Is a StatsProvider."""
+
     BROADCAST_ADDRESS = -1
 
     def __init__(self, config: Config):
@@ -22,14 +22,27 @@ class Netstack(StatsProvider):
         self.slot_length = None
         config.extract("slot_length", self, 5)
 
-        self.mac: 'MAC' = Config.instantiate_from_dict(config.config["mac"], 'lure.node.net.mac')
-        self.ill: 'ILL' = Config.instantiate_from_dict(config.config["ill"], 'lure.node.net.ill')
-        self.network: 'Network' = Config.instantiate_from_dict(config.config["network"], 'lure.node.net.network')
-        self.physical: 'Physical' = Config.instantiate_from_dict(config.config["physical"], 'lure.node.net.physical')
+        self.mac: "MAC" = Config.instantiate_from_dict(
+            config.config["mac"], "lure.node.net.mac"
+        )
+        self.ill: "ILL" = Config.instantiate_from_dict(
+            config.config["ill"], "lure.node.net.ill"
+        )
+        self.network: "Network" = Config.instantiate_from_dict(
+            config.config["network"], "lure.node.net.network"
+        )
+        self.physical: "Physical" = Config.instantiate_from_dict(
+            config.config["physical"], "lure.node.net.physical"
+        )
 
         self.framers: List[Framer] = []
 
-    def initialize(self, node: 'SensorNode', all_netstacks: List['Netstack'], simpy_env: simpy.core.Environment):
+    def initialize(
+        self,
+        node: "SensorNode",
+        all_netstacks: List["Netstack"],
+        simpy_env: simpy.core.Environment,
+    ):
         """Initializes with the simulation. Calls initialize() on the ILL, MAC, NETWORK, and PHYSICAL layers. Adds framers.
 
         :param node: The SensorNode object that this netstack belongs to
@@ -77,16 +90,14 @@ class Netstack(StatsProvider):
         return parsed
 
     def boot(self):
-        """Called by SensorNode. Calls boot() on all network layers.
-        """
+        """Called by SensorNode. Calls boot() on all network layers."""
         self.mac.boot()
         self.ill.boot()
         self.network.boot()
         self.physical.boot()
 
     def execute(self):
-        """Executes on every simulation tick that this node is on for. Calls execute() on each network layer.
-        """
+        """Executes on every simulation tick that this node is on for. Calls execute() on each network layer."""
         self.mac.execute()
         self.ill.execute()
         self.network.execute()
@@ -100,7 +111,7 @@ class Netstack(StatsProvider):
         self.addr = addr
 
     def __str__(self):
-        return f'slot-{self.slot_length}_mac-{self.mac}_ill-{self.ill}'
+        return f"slot-{self.slot_length}_mac-{self.mac}_ill-{self.ill}"
 
     @StatsProvider.stats.setter
     def stats(self, stats: Stats):

@@ -5,17 +5,20 @@ from typing import Optional
 
 from lure.node.stats import StatType, Stats, StatsProvider
 
+
 class PacketQueue(Loggable, StatsProvider):
-    """A node's internal packet queue
-    """
+    """A node's internal packet queue"""
+
     packet_queue = {}
 
     def __init__(self, max_total_size=100):
         self.packet_queue = {}
-        
+
         # Added by Shen. queue_size: The total number of packets (to all receivers) the quene can store.
         self.max_total_size = max_total_size
-        self.max_pkts_single_receiver = max_total_size / 4 # the maximum number of packets for a single receiver
+        self.max_pkts_single_receiver = (
+            max_total_size / 4
+        )  # the maximum number of packets for a single receiver
 
     def total_size(self) -> int:
         """Returns the sum of the size of individual queues
@@ -37,18 +40,20 @@ class PacketQueue(Loggable, StatsProvider):
         """
         try:
             if len(self.packet_queue[receiver_id]) >= self.max_pkts_single_receiver:
-                return False # The queue is false
+                return False  # The queue is false
             else:
-                self.packet_queue[receiver_id].append(packet) # Append to existing queue
-                self.debug(f'after queue packet, packet queue: {self.packet_queue}')
-        except KeyError as e:
-            self.packet_queue[receiver_id] = [packet] # Queue is created
-        
-        packet.queue_arrive_time = self.stats.simpy_env.now #Used for PACKET_QUEUE_EVENTS
+                self.packet_queue[receiver_id].append(
+                    packet
+                )  # Append to existing queue
+                self.debug(f"after queue packet, packet queue: {self.packet_queue}")
+        except KeyError:
+            self.packet_queue[receiver_id] = [packet]  # Queue is created
+
+        packet.queue_arrive_time = (
+            self.stats.simpy_env.now
+        )  # Used for PACKET_QUEUE_EVENTS
         self.stats.time_series_append(StatType.PACKETS_IN_QUEUE, self.total_size())
         return True
-        
-
 
     def next_packet(self, receiver_id: int) -> Optional[Packet]:
         """Access the next packet to send to the specified receiver
@@ -60,24 +65,23 @@ class PacketQueue(Loggable, StatsProvider):
         """
         try:
             return self.packet_queue[receiver_id][0]
-        except KeyError as e:
+        except KeyError:
             return None
-        except IndexError as e:
+        except IndexError:
             return None
 
     def deque_packet(self, receiver_id: int) -> Optional[Packet]:
-        """Deque the packet for the next receiver after a successful send. Depreciated.
-        """
-        self.debug('deque packet')
+        """Deque the packet for the next receiver after a successful send. Depreciated."""
+        self.debug("deque packet")
         try:
             packet = self.packet_queue[receiver_id].pop(0)
             if len(self.packet_queue[receiver_id]) == 0:
                 del self.packet_queue[receiver_id]
             self.stats.time_series_append(StatType.PACKETS_IN_QUEUE, self.total_size())
             return packet
-        except KeyError as e:
+        except KeyError:
             return None
-        
+
     def remove_packet(self, receiver_id: int, seqno: int) -> bool:
         """Removes a packet from a queue based on its sequence number and intended receiver.
 
@@ -92,13 +96,15 @@ class PacketQueue(Loggable, StatsProvider):
             packet = [p for p in self.packet_queue[receiver_id] if p.seqno == seqno][0]
             self.packet_queue[receiver_id].remove(packet)
             self.stats.time_series_append(StatType.PACKETS_IN_QUEUE, self.total_size())
-            self.stats.time_series_append(StatType.PACKET_QUEUE_EVENTS, packet.queue_arrive_time)
+            self.stats.time_series_append(
+                StatType.PACKET_QUEUE_EVENTS, packet.queue_arrive_time
+            )
             if len(self.packet_queue[receiver_id]) == 0:
                 del self.packet_queue[receiver_id]
             return True
-        except KeyError as e:
+        except KeyError:
             return False
-        except IndexError as e:
+        except IndexError:
             return False
 
     def queue_empty(self, receiver_id: int) -> bool:
@@ -109,12 +115,14 @@ class PacketQueue(Loggable, StatsProvider):
         :return: True if the queue is empty
         :rtype: bool
         """
-        if(receiver_id in self.packet_queue):
-            self.debug(f'queue length for receiver {receiver_id}: {len(self.packet_queue[receiver_id])}')
-            return (len(self.packet_queue[receiver_id]) == 0)
+        if receiver_id in self.packet_queue:
+            self.debug(
+                f"queue length for receiver {receiver_id}: {len(self.packet_queue[receiver_id])}"
+            )
+            return len(self.packet_queue[receiver_id]) == 0
         else:
             return True
-        #return receiver_id not in self.packet_queue
+        # return receiver_id not in self.packet_queue
 
     def queues_empty(self) -> bool:
         """Returns whether all of this node's queues are empty
@@ -123,7 +131,7 @@ class PacketQueue(Loggable, StatsProvider):
         :rtype: bool
         """
         for r in self.packet_queue:
-            if len(self.packet_queue[r]) != 0: 
+            if len(self.packet_queue[r]) != 0:
                 return False
         return True
 
@@ -134,10 +142,12 @@ class PacketQueue(Loggable, StatsProvider):
         :rtype: int
         """
         if len(self.packet_queue) == 0:
-            self.debug('Warning: Fail to find a receiver due to empty queue. Return None!')
+            self.debug(
+                "Warning: Fail to find a receiver due to empty queue. Return None!"
+            )
             return None
         else:
-            #TODO: This could use some reworking to better determine what packet is to be sent next
+            # TODO: This could use some reworking to better determine what packet is to be sent next
             for receiver_id in self.packet_queue:
                 return receiver_id
 
@@ -151,8 +161,7 @@ class PacketQueue(Loggable, StatsProvider):
         self.stats.time_series_append(StatType.PACKETS_IN_QUEUE, self.total_size())
 
     def clear_all(self):
-        """Delete all queues belonging to this node
-        """
+        """Delete all queues belonging to this node"""
         receiver_ids = list(self.packet_queue.keys())
         for receiver_id in receiver_ids:
             self.clear(receiver_id)

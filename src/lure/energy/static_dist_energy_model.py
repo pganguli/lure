@@ -5,14 +5,16 @@ from lure.node.power.harvester import Harvester
 
 
 class DistType(Enum):
-    """Different distribution types available to this energy model
-    """
-    GAUSSIAN = "GAUSSIAN" # Params [mean, std]
-    GAUSSIAN_COEFFICIENT = "GAUSSIAN_COEFFICIENT" # Params [mean, coeff], where std = mean * coeff
+    """Different distribution types available to this energy model"""
+
+    GAUSSIAN = "GAUSSIAN"  # Params [mean, std]
+    GAUSSIAN_COEFFICIENT = (
+        "GAUSSIAN_COEFFICIENT"  # Params [mean, coeff], where std = mean * coeff
+    )
+
 
 class StaticDistEnergyModel(EnergyModel):
-    """An energy model that uses a static distribution
-    """
+    """An energy model that uses a static distribution"""
 
     def __init__(self, config: EnergyModelConfig):
         self.dist_type = None
@@ -52,11 +54,14 @@ class StaticDistEnergyModel(EnergyModel):
         :return: The average power in watts
         :rtype: float
         """
-        if self.dist_type is DistType.GAUSSIAN or self.dist_type is DistType.GAUSSIAN_COEFFICIENT:
+        if (
+            self.dist_type is DistType.GAUSSIAN
+            or self.dist_type is DistType.GAUSSIAN_COEFFICIENT
+        ):
             return self.param1
         else:
-            self.warning(f'No average power defined for distribution {self.dist_type}')
+            self.warning(f"No average power defined for distribution {self.dist_type}")
         return self.param1
 
     def __str__(self):
-        return f'StaticDist-{self.dist_type.value}-{self.param1}-{self.param2}'
+        return f"StaticDist-{self.dist_type.value}-{self.param1}-{self.param2}"

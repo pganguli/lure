@@ -14,26 +14,31 @@ from lure.node.power.harvester import Harvester
 from lure.node.power.storage import Storage
 from lure.node.stats import Stats, StatsProvider
 
-INITIAL_CHARGE_RANDOM_UNIFORM = 'random_uniform'
+INITIAL_CHARGE_RANDOM_UNIFORM = "random_uniform"
+
 
 class PowerSupply(Loggable, StatsProvider):
     """The power module for a node, which ties the storage and the harvester together."""
 
     def __init__(self, config: Config):
         """Instantiate the PowerSupply
-        
+
         :param config: the configuration
         :type config: Config
         """
-        self.storage: Storage = Config.instantiate_from_dict(config.config["storage"], 'lure.node.power')
-        self.harvester: Harvester = Config.instantiate_from_dict(config.config["harvester"], 'lure.node.power')
+        self.storage: Storage = Config.instantiate_from_dict(
+            config.config["storage"], "lure.node.power"
+        )
+        self.harvester: Harvester = Config.instantiate_from_dict(
+            config.config["harvester"], "lure.node.power"
+        )
         self.initial_charge_percent = None
         self._last_update = 0
         self._last_discharge_rate = 0
         self.timestepper = None
         config.extract("initial_charge_percent", self, 100)
 
-    def initialize(self, node: 'SensorNode', energy_model: 'EnergyModel'):
+    def initialize(self, node: "SensorNode", energy_model: "EnergyModel"):
         """Initialize the PowerSupply, called during the deployment phase (i.e. the beginning of the simulation).
 
         :param node: the SensorNode this is powering
@@ -51,33 +56,35 @@ class PowerSupply(Loggable, StatsProvider):
 
     def set_charge_percent(self, percent: float):
         """Sets the storage to the given percent charge
-        
+
         :param percent: the percentage of charge the storage will now have
         :type percent: float
         """
         pass
-    
+
     def restart(self):
         """Maintenance actions for when the node restarts."""
         self.harvester.restart()
 
     def execute(self, discharge_rate: float) -> bool:
         """Called every time the node executes. Used to harvest and discharge based on time passed.
-        
+
         :param discharge_rate: the discharge rate in Watts since the last time execute was called
         :type discharge_rate: float
         :return: True if the PowerSupply has enough energy to support the requested discharge, False if not (and the node should turn off)
         :rtype: bool
         """
         elapsed_time = self.timestepper.simpy_env.now - self._last_update
-        self.storage.change_energy(self.harvester.harvest(elapsed_time) - discharge_rate*elapsed_time)
+        self.storage.change_energy(
+            self.harvester.harvest(elapsed_time) - discharge_rate * elapsed_time
+        )
         self._last_discharge_rate = discharge_rate
         self._last_update = self.timestepper.simpy_env.now
         return self.storage.voltage > 0
 
     def get_current_energy(self) -> float:
         """Gets the current energy of the storage, calling execute() if needed.
-        
+
         :return: the current stored energy, in mJ
         :rtype: float
         """
@@ -87,7 +94,7 @@ class PowerSupply(Loggable, StatsProvider):
 
     def get_time_to_restart(self) -> SimTime:
         """Gets expected time in ms until the PowerSupply has enough energy to restart. Used for scheduling node events
-        
+
         :return: time until the node can restart
         :rtype: SimTime
         """
@@ -95,7 +102,7 @@ class PowerSupply(Loggable, StatsProvider):
 
     def get_time_to_death(self, discharge_rate: float) -> SimTime:
         """Gets expected time in ms until the PowerSupply will turn off due to low voltage. Used for scheduling node events
-        
+
         :param discharge_rate: the current discharge rate, in Watts
         :type discharge_rate: float
         :return: time until the node will turn off
@@ -105,7 +112,7 @@ class PowerSupply(Loggable, StatsProvider):
 
     def get_max_ontime_energy(self) -> float:
         """Returns the maximum amount of energy that can be stored at the start of an on-time
-        
+
         :return: max energy at start of an on-time, in mJ
         :rtype: float
         """
@@ -114,7 +121,7 @@ class PowerSupply(Loggable, StatsProvider):
     def get_expected_period_for_rate(self, rate_w: float) -> SimTime:
         """Returns the estimated length of a lifecycle given a
         charging rate and assuming a full on-time.
-        
+
         :param rate_w: the charging rate to compute the estimate for, in Watts
         :type rate_w: float
         :return: length of the lifecycle for that rate
@@ -123,7 +130,7 @@ class PowerSupply(Loggable, StatsProvider):
         pass
 
     def __str__(self):
-        return f'{self.storage}_{self.harvester}'
+        return f"{self.storage}_{self.harvester}"
 
     @StatsProvider.stats.setter
     def stats(self, stats: Stats):

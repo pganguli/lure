@@ -27,23 +27,33 @@ class ThresholdPowerSupply(PowerSupply):
         return self.storage.voltage > self.threshold_to_die_v
 
     def get_max_ontime_energy(self) -> float:
-        return self.storage.get_energy_for_voltage(self.threshold_to_restart_v) - self.storage.get_energy_for_voltage(self.threshold_to_die_v)
+        return self.storage.get_energy_for_voltage(
+            self.threshold_to_restart_v
+        ) - self.storage.get_energy_for_voltage(self.threshold_to_die_v)
 
     def get_time_to_restart(self) -> SimTime:
-        remaining_energy = self.storage.get_energy_for_voltage(self.threshold_to_restart_v) - self.get_current_energy()
+        remaining_energy = (
+            self.storage.get_energy_for_voltage(self.threshold_to_restart_v)
+            - self.get_current_energy()
+        )
         if remaining_energy <= 0:
             return 0
         return self.harvester.get_time_to_harvest(remaining_energy)
 
     def get_time_to_death(self, discharge_rate: float) -> SimTime:
-        remaining_energy = self.get_current_energy() - self.storage.get_energy_for_voltage(self.threshold_to_die_v)
+        remaining_energy = (
+            self.get_current_energy()
+            - self.storage.get_energy_for_voltage(self.threshold_to_die_v)
+        )
         if remaining_energy <= 0:
             return 0
         return remaining_energy / discharge_rate
 
     def get_expected_period_for_rate(self, rate_w: float) -> SimTime:
-        energy = self.storage.get_energy_for_voltage(self.threshold_to_restart_v) - self.storage.get_energy_for_voltage(self.threshold_to_die_v)
+        energy = self.storage.get_energy_for_voltage(
+            self.threshold_to_restart_v
+        ) - self.storage.get_energy_for_voltage(self.threshold_to_die_v)
         return energy / rate_w
 
     def __str__(self):
-        return f'ThresholdPowerSupply-{super().__str__()}'
+        return f"ThresholdPowerSupply-{super().__str__()}"

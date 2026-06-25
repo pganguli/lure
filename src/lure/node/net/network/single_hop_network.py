@@ -6,14 +6,14 @@ from lure.node.stats import StatType
 import simpy
 from typing import List
 
+
 class SingleHopNetwork(Network):
-    """Establishes a network topology where all nodes neighbor one another
-    """
+    """Establishes a network topology where all nodes neighbor one another"""
 
     def __init__(self, config: Config):
         super().__init__(config)
         self.routes = {}
-    
+
     def initialize(self, node: SensorNode, simpy_env: simpy.core.Environment):
         """Initialize with the simulation. Establish what the network neighbors are.
 
@@ -40,7 +40,7 @@ class SingleHopNetwork(Network):
         if packet.type == PacketType.CONTROL:
             return self.netstack.BROADCAST_ADDRESS
         return packet.destination_id
-    
+
     def get_net_neighbors(self, node: SensorNode) -> List[int]:
         """Retrieve all network neighbors of this node
 
@@ -50,7 +50,8 @@ class SingleHopNetwork(Network):
         :rtype: List[int]
         """
         neighbors = []
-        other_nodes = [n.node_id for n in node.simulation.nodes if n.node_id != self.node_id]
+        other_nodes = [
+            n.node_id for n in node.simulation.nodes if n.node_id != self.node_id
+        ]
         neighbors = other_nodes
         return neighbors
-        

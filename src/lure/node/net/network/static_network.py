@@ -8,14 +8,13 @@ from lure.node.stats import StatType
 
 
 class StaticNetwork(Network):
-    """Establish a topology configured by static routes defined by configuration
-    """
+    """Establish a topology configured by static routes defined by configuration"""
 
     def __init__(self, config: Config):
         super().__init__(config)
         self.routes = None
         config.extract("routes", self, None)
-   
+
     def initialize(self, node: SensorNode, simpy_env: simpy.core.Environment):
         """Initialization with simulation
 
@@ -28,7 +27,7 @@ class StaticNetwork(Network):
         neighbors = self.get_net_neighbors()
         for n in neighbors:
             self.stats.list_append(StatType.NETWORK_NEIGHBORS, n)
-    
+
     def get_next_hop(self, packet: Packet) -> int:
         """Retrieves the packets next hop node by comparing its destination_id with its preset next hop table
 
@@ -53,9 +52,9 @@ class StaticNetwork(Network):
         :rtype: List[int]
         """
         neighbors = []
-        if self.routes != None:
+        if self.routes is not None:
             for dest, next_hop in self.routes.items():
-                if(neighbors.count(int(next_hop)) > 0):
+                if neighbors.count(int(next_hop)) > 0:
                     pass
                 else:
                     neighbors.append(int(next_hop))

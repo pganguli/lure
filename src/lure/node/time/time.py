@@ -1,5 +1,6 @@
 from simpy.core import SimTime
 from typing import TYPE_CHECKING, Dict, Union
+
 if TYPE_CHECKING:
     from lure.node.sensor_node import SensorNode
 
@@ -7,21 +8,22 @@ from lure.node.stats import Stats, StatsProvider
 from lure.lure_logger import Loggable
 from lure.config.configuration import Config
 from lure.node.net.packet import Framer, Packet
-from simpy.core import SimTime
 
 NodeTime = Union[int, float]
 
-class TimeModule(Framer, Loggable, StatsProvider):
 
+class TimeModule(Framer, Loggable, StatsProvider):
     def __init__(self, config: Config):
-        self.active_clock = Config.instantiate_from_dict(config.config["active_clock"], 'lure.node.time')
+        self.active_clock = Config.instantiate_from_dict(
+            config.config["active_clock"], "lure.node.time"
+        )
         self._timers: Dict[str, NodeTime] = dict()
         self._last_update: SimTime = None
         self.total_ontime: NodeTime = 0
         self._last_total_ontime_update: NodeTime = 0
         self.last_ontime = 0
 
-    def initialize(self, node: 'SensorNode'):
+    def initialize(self, node: "SensorNode"):
         self.timestepper = node.timestepper
         self.netstack = node.netstack
 
@@ -54,24 +56,28 @@ class TimeModule(Framer, Loggable, StatsProvider):
         if self._last_update is not None:
             self.active_clock.update(self.timestepper.simpy_env.now - self._last_update)
         self._last_update = self.timestepper.simpy_env.now
-        self.debug(f'Clock is now {self.clock()}')
+        self.debug(f"Clock is now {self.clock()}")
 
     def set_relative_timer(self, key: str, t: NodeTime):
-        self.debug(f'Setting {key} with {t}')
+        self.debug(f"Setting {key} with {t}")
         self._timers[key] = self.clock() + t
         self.timestepper.set_relative_timer(key, self.node_time_to_sim_time(t))
-        
+
     def set_absolute_timer(self, key: str, t: NodeTime):
-        self.debug(f'Setting {key} to {t}')
+        self.debug(f"Setting {key} to {t}")
         self._timers[key] = t
-        self.timestepper.set_relative_timer(key, self.node_time_to_sim_time(t - self.clock()))
+        self.timestepper.set_relative_timer(
+            key, self.node_time_to_sim_time(t - self.clock())
+        )
 
     def timer_expired(self, key: str) -> bool:
         try:
-            self.debug(f'Checking if timer {key} for {self._timers[key]} is expired at {self.clock()}...')
+            self.debug(
+                f"Checking if timer {key} for {self._timers[key]} is expired at {self.clock()}..."
+            )
             return self.clock() >= self._timers[key]
         except KeyError:
-            self.warning(f'Timer {key} not found.')
+            self.warning(f"Timer {key} not found.")
             return False
 
     def cancel_timer(self, key: str):

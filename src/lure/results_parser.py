@@ -2,9 +2,9 @@ from lure.results import ExperimentResult, SeriesResult, SimulationResult, LureR
 from lure.node.stats import Stats
 from typing import Hashable, List
 
-class ResultsParser():
-    """A functionally static class that is used to parse the results provided by :py:meth:`lure.load_results` for the purposes of isolating data for plotting or other analysis.
-    """
+
+class ResultsParser:
+    """A functionally static class that is used to parse the results provided by :py:meth:`lure.load_results` for the purposes of isolating data for plotting or other analysis."""
 
     @staticmethod
     def getExperiment(results: LureResults, exp_index: int) -> ExperimentResult:
@@ -18,9 +18,11 @@ class ResultsParser():
         :rtype: ExperimentResult
         """
         return results.experiment_results[exp_index]
-      
+
     @staticmethod
-    def getSeriesResultByIndex(experiment: ExperimentResult, series_index: int) -> SeriesResult:
+    def getSeriesResultByIndex(
+        experiment: ExperimentResult, series_index: int
+    ) -> SeriesResult:
         """Retrieve a SeriesResult object from an ExperimentResult by index
 
         :param experiment: Object to be parsed
@@ -34,7 +36,9 @@ class ResultsParser():
         return series_vals[series_index]
 
     @staticmethod
-    def getSeriesResultByMetadataKey(experiment: ExperimentResult, key: str) -> SeriesResult:
+    def getSeriesResultByMetadataKey(
+        experiment: ExperimentResult, key: str
+    ) -> SeriesResult:
         """Retrieve a Series Result object from an ExperimentResult by its metadata key
 
         :param experiment: Object to be parsed
@@ -45,8 +49,8 @@ class ResultsParser():
         :return: The desired result
         :rtype: SeriesResult
         """
-        return experiment.series_results[key]  
-  
+        return experiment.series_results[key]
+
     # @staticmethod
     # def getSeriesMetadata(experiment: ExperimentResult, series_index: int) -> DataSeriesMetadata:
     #     """Retrieves the metadata object by index
@@ -60,7 +64,7 @@ class ResultsParser():
     #     """
     #     series_metadata = list(experiment.keys())
     #     return series_metadata[series_index]
-    
+
     @staticmethod
     def getNumTrials(experiment: ExperimentResult) -> int:
         """Returns the number of trials recorded in a particular experiment
@@ -88,7 +92,9 @@ class ResultsParser():
         return series_result.x_values
 
     @staticmethod
-    def getAllTrials(series_result: SeriesResult, xval: Hashable) -> List[SimulationResult]:
+    def getAllTrials(
+        series_result: SeriesResult, xval: Hashable
+    ) -> List[SimulationResult]:
         """Retrieve all the trials of an experiment
 
         :param series_result: The series result being parsed
@@ -99,9 +105,11 @@ class ResultsParser():
         :rtype: List[SimulationResult]
         """
         return series_result.sim_results[xval]
-    
+
     @staticmethod
-    def getTrial(series_result: SeriesResult, xval: Hashable, trial_index: int) -> SimulationResult:
+    def getTrial(
+        series_result: SeriesResult, xval: Hashable, trial_index: int
+    ) -> SimulationResult:
         """_summary_
 
         :param series_result: The series result being parsed
@@ -128,6 +136,3 @@ class ResultsParser():
         """
         with trial as s:
             return s[node_id]
-
-    
-

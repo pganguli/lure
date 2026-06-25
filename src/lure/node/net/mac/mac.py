@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from lure.node.timestepper import Timestepper
+
 if TYPE_CHECKING:
     from lure.node.sensor_node import SensorNode
 from lure.config.configuration import Config
@@ -12,17 +12,17 @@ from lure.node.net.packet import Packet
 # from collections.abc import Callable
 from typing import Callable
 
-from lure.node.net.physical.physical import Physical
 from lure.node.stats import StatType, Stats, StatsProvider
 
+
 class MACConfigKey(Enum):
-    """An enumerated type defining MAC configuration keys
-    """
+    """An enumerated type defining MAC configuration keys"""
+
     RETRIES = 1
 
+
 class MAC(Loggable, StatsProvider):
-    """The framework that all MAC protocols should base themselves upon
-    """
+    """The framework that all MAC protocols should base themselves upon"""
 
     def __init__(self, config: Config):
         self.netstack: Netstack = None
@@ -91,7 +91,7 @@ class MAC(Loggable, StatsProvider):
             self._is_receiving = val
             self.stats.time_series_append(StatType.MAC_IS_RECEIVING, val)
 
-    def initialize(self, node: 'SensorNode'):
+    def initialize(self, node: "SensorNode"):
         """Initialize with the simulation
 
         :param node: The node object this MAC layer belongs to
@@ -120,11 +120,10 @@ class MAC(Loggable, StatsProvider):
         pass
 
     def boot(self):
-        """Called on node boot
-        """
+        """Called on node boot"""
         pass
 
-    def send_packet(self, receiver_id: int, packet: Packet)-> bool:
+    def send_packet(self, receiver_id: int, packet: Packet) -> bool:
         """Called by an upper layer to prepare a packet for sending
 
         :param receiver_id: The receiver of the packet
@@ -137,8 +136,7 @@ class MAC(Loggable, StatsProvider):
         pass
 
     def start_receive(self) -> bool:
-        """Called by the other node to start receiing an incoming packet
-        """
+        """Called by the other node to start receiing an incoming packet"""
         pass
 
     def packet_received(self, packet: Packet, sender_id: int) -> bool:
@@ -162,10 +160,9 @@ class MAC(Loggable, StatsProvider):
         pass
 
     def cancel_reception(self) -> bool:
-        """Called by other node if it stops transmitting unexpectedly, e.g. because it died
-        """
+        """Called by other node if it stops transmitting unexpectedly, e.g. because it died"""
         self.is_receiving = False
-    
+
     def register_sent_cb(self, callback: Callable[[Packet, int], None]):
         """Registers the callback function that the MAC layer will use it interface with the layer above it for packet sent events"""
         pass
@@ -175,22 +172,19 @@ class MAC(Loggable, StatsProvider):
         pass
 
     def abort_send(self):
-        """Abort the current send, if any
-        """
+        """Abort the current send, if any"""
         pass
 
     def execute(self):
-        """Called every execution cycle, i.e. every ms, to allow timer evaluation
-        """
+        """Called every execution cycle, i.e. every ms, to allow timer evaluation"""
         pass
 
     def reset(self):
-        """Called by SensorNode when the node dies
-        """
+        """Called by SensorNode when the node dies"""
         pass
 
     def __str__(self):
-        return 'MAC'
+        return "MAC"
 
     @StatsProvider.stats.setter
     def stats(self, stats: Stats):

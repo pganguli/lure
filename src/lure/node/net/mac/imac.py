@@ -1,8 +1,8 @@
-from simpy.core import SimTime
 from typing import TYPE_CHECKING, Callable
 from lure.config.configuration import Config
 from lure.node.stats import StatType
 from lure.node.timestepper import Timestepper
+
 if TYPE_CHECKING:
     from lure.node.sensor_node import SensorNode
 
@@ -10,13 +10,13 @@ from lure.node.net.mac.mac import MAC, MACConfigKey
 from lure.node.net.packet import Packet, PacketType
 from lure.node.time.time import TimeModule
 
-class iMAC(MAC):
-    """A baseline MAC protocol implementation
-    """
 
-    TIMER_KEY_BACKOFF = 'mac_backoff'
-    TIMER_KEY_TRANSMIT = 'mac_transmit'
-    TIMER_KEY_RECEIVE = 'mac_receive'
+class iMAC(MAC):
+    """A baseline MAC protocol implementation"""
+
+    TIMER_KEY_BACKOFF = "mac_backoff"
+    TIMER_KEY_TRANSMIT = "mac_transmit"
+    TIMER_KEY_RECEIVE = "mac_receive"
 
     def __init__(self, config: Config):
         super().__init__(config)
@@ -43,7 +43,7 @@ class iMAC(MAC):
         self.time_module: TimeModule = None
         self.timestepper: Timestepper = None
 
-    def initialize(self, node: 'SensorNode'):
+    def initialize(self, node: "SensorNode"):
         """Initialize with the simulation
 
         :param node: This object's parent node
@@ -75,16 +75,14 @@ class iMAC(MAC):
         pass
 
     def boot(self):
-        """Called on node boot
-        """
-        self.debug('booting')
+        """Called on node boot"""
+        self.debug("booting")
         self.reset()
         if self.receive_cb is not None:
             self.is_listening = True
-    
+
     def reset(self):
-        """Called when the node boots and when the node dies. Resets the nodes current state and cancels current reception or transmission.
-        """
+        """Called when the node boots and when the node dies. Resets the nodes current state and cancels current reception or transmission."""
         if self.is_transmitting:
             self.netstack.physical.cancel_reception_on_neighbors()
         self.is_sending = False
@@ -94,12 +92,12 @@ class iMAC(MAC):
         self.current_packet = None
         self.backing_off = False
         if self.packet_to_ack:
-            self.debug('Dying while sending an ack')
+            self.debug("Dying while sending an ack")
             self.stats.increment(StatType.MAC_DEATHS_DURING_ACK)
         self.packet_to_ack = None
         self.waiting_for_ack = False
         if self.ack_incoming:
-            self.debug('Dying while waiting on an ack')
+            self.debug("Dying while waiting on an ack")
             self.stats.increment(StatType.MAC_DEATHS_DURING_ACK)
         self.ack_incoming = False
 
@@ -113,10 +111,12 @@ class iMAC(MAC):
         :return: True if not already in sending mode
         :rtype: bool
         """
-        self.debug(f'Sending packet, is sending: {self.is_sending}, packet {packet}')
+        self.debug(f"Sending packet, is sending: {self.is_sending}, packet {packet}")
         if not self.is_sending:
             self.current_packet = packet
-            self.debug(f"current_receiver_id set. Old = {self.current_receiver_id}, New = {receiver_id}")
+            self.debug(
+                f"current_receiver_id set. Old = {self.current_receiver_id}, New = {receiver_id}"
+            )
             self.current_receiver_id = receiver_id
             self.is_sending = True
             # self.sent_cb = callback
@@ -133,7 +133,7 @@ class iMAC(MAC):
         :type status: bool
         """
 
-        self.debug(f'Packet sent, status: {status}')
+        self.debug(f"Packet sent, status: {status}")
         if status is True:
             self.is_sending = False
             # If we were previously listening, start listening again
@@ -144,8 +144,10 @@ class iMAC(MAC):
             # If the channel is occupied by another node, we back off and act as a receiver
             self.is_listening = True
             self.backoff_timeout = self.backoff_slots * self.netstack.slot_length
-            self.debug(f'backoff time set to {self.backoff_timeout}')
-            self.time_module.set_relative_timer(self.TIMER_KEY_BACKOFF, self.backoff_timeout)
+            self.debug(f"backoff time set to {self.backoff_timeout}")
+            self.time_module.set_relative_timer(
+                self.TIMER_KEY_BACKOFF, self.backoff_timeout
+            )
             self.backing_off = True
 
     def start_receive(self) -> bool:
@@ -154,14 +156,16 @@ class iMAC(MAC):
         :return: True if starting reception
         :rtype: bool
         """
-        self.debug(f'Starting receive, is_listening {self.is_listening}, is_receiving {self.is_receiving}, is_transmitting {self.is_transmitting}')
+        self.debug(
+            f"Starting receive, is_listening {self.is_listening}, is_receiving {self.is_receiving}, is_transmitting {self.is_transmitting}"
+        )
         if self.is_listening and not self.is_receiving and not self.is_transmitting:
             self.is_receiving = True
             return True
         return False
 
     def packet_received(self, packet: Packet, sender_id: int) -> bool:
-        """Callback for when a packet is received. 
+        """Callback for when a packet is received.
 
         :param packet: Packet received
         :type packet: Packet
@@ -171,12 +175,14 @@ class iMAC(MAC):
         :rtype: bool
         """
         if self.is_receiving and self.is_listening:
-            self.debug(f'Packet received from {sender_id}')
+            self.debug(f"Packet received from {sender_id}")
             self.receive_cb(packet, sender_id)
             self.packet_to_ack = packet
-            self.debug('backoff time set')
+            self.debug("backoff time set")
             self.backoff_timeout = self.netstack.slot_length + 1
-            self.time_module.set_relative_timer(self.TIMER_KEY_BACKOFF, self.backoff_timeout)
+            self.time_module.set_relative_timer(
+                self.TIMER_KEY_BACKOFF, self.backoff_timeout
+            )
             self.backing_off = True
             if packet.type is PacketType.DATA:
                 self.stats.increment(StatType.MAC_DATA_RECEIVED)
@@ -184,7 +190,9 @@ class iMAC(MAC):
                 self.stats.increment(StatType.MAC_CONTROL_RECEIVED)
             return True
         else:
-            self.debug(f'Packet dropped. Destination={packet.destination_id}, Sender={sender_id}')
+            self.debug(
+                f"Packet dropped. Destination={packet.destination_id}, Sender={sender_id}"
+            )
             pass
 
         return False
@@ -192,27 +200,33 @@ class iMAC(MAC):
     def send_ack(self) -> Packet:
         """Called by the physical layer
 
-        :return: A packet with type ACK if successful. None otherwise 
+        :return: A packet with type ACK if successful. None otherwise
         :rtype: Packet
         """
         if self.is_receiving and self.is_listening:
             if not self.packet_to_ack:
-                self.debug(f'Expected to have a packet to ack but none found.')
-                assert(False)
+                self.debug("Expected to have a packet to ack but none found.")
+                assert False
                 return None
-            ack = Packet(self.packet_to_ack.seqno, self.netstack.addr, self.packet_to_ack.source_id, packet_type=PacketType.ACK, slot_length=self.netstack.slot_length, ack_fraction=self.ack_fraction)
+            ack = Packet(
+                self.packet_to_ack.seqno,
+                self.netstack.addr,
+                self.packet_to_ack.source_id,
+                packet_type=PacketType.ACK,
+                slot_length=self.netstack.slot_length,
+                ack_fraction=self.ack_fraction,
+            )
             self.netstack.frame(ack)
-            self.debug(f'Sending ack!')
+            self.debug("Sending ack!")
             self.is_receiving = False
             self.packet_to_ack = None
             return ack
-        
+
         return None
 
     def cancel_reception(self):
-        """Called by the other node if it stops transmitting unexpectedly (e.g., because it died)
-        """
-        #TODO: check that the tx being cancelled is the one we're actually receiving
+        """Called by the other node if it stops transmitting unexpectedly (e.g., because it died)"""
+        # TODO: check that the tx being cancelled is the one we're actually receiving
         self.is_receiving = False
 
     def register_receive_cb(self, callback: Callable[[Packet, int], None]):
@@ -221,26 +235,25 @@ class iMAC(MAC):
         :param callback: The callback function that this layer reports back to
         :type callback: Callable[[Packet, int], None]
         """
-        self.debug('register receive cb')
+        self.debug("register receive cb")
         if self.is_sending is False:
             self.is_listening = True
         self.receive_cb = callback
         self.netstack.physical.register_receive_cb(self.packet_received)
-    
+
     def register_sent_cb(self, callback: Callable[[Packet, int], None]):
         """Registers the packet sent callback method
 
         :param callback: The callback function that this layer reports back to
         :type callback: Callable[[Packet, int], None]
         """
-        self.debug('register sent cb')
+        self.debug("register sent cb")
         self.sent_cb = callback
         self.netstack.physical.register_sent_cb(self.packet_sent)
 
     def abort_send(self):
-        """Aborts the current send and starts listening (if we have a receive callback)
-        """
-        #TODO: Is there a case when there won't be a receive_cb? Should there be one?
+        """Aborts the current send and starts listening (if we have a receive callback)"""
+        # TODO: Is there a case when there won't be a receive_cb? Should there be one?
         self.is_transmitting = False
         self.is_sending = False
         self.current_packet = None
@@ -248,46 +261,57 @@ class iMAC(MAC):
             self.is_listening = True
 
     def _try_transmit(self):
-        """Attempt to transmit a packet 
-        """
+        """Attempt to transmit a packet"""
         self.is_listening = False
         self.waiting_for_ack = False
         # Only frame if the packet needs it (it may have been framed at the ILL)
         if not self.current_packet.framed:
             self.netstack.frame(self.current_packet)
-        channel_occupied = self.netstack.physical.neighbor_is_transmitting() 
+        channel_occupied = self.netstack.physical.neighbor_is_transmitting()
         if not self.is_transmitting and not channel_occupied:
             # Only gets to the receiver if it's listening
-            self.debug(f'Starting receive on neighbor: {self.current_receiver_id}. Packet dest={self.current_packet.destination_id}, next_hop={self.current_packet.next_hop}')
-            if self.netstack.physical.start_receive_on_neighbor(self.current_receiver_id): #TODO
+            self.debug(
+                f"Starting receive on neighbor: {self.current_receiver_id}. Packet dest={self.current_packet.destination_id}, next_hop={self.current_packet.next_hop}"
+            )
+            if self.netstack.physical.start_receive_on_neighbor(
+                self.current_receiver_id
+            ):  # TODO
                 # receiver successfully start to receive
-                self.debug(f'Starting transmission, receiver ({self.current_receiver_id}) is available!')
+                self.debug(
+                    f"Starting transmission, receiver ({self.current_receiver_id}) is available!"
+                )
             else:
-                self.debug(f'Starting transmission (receiver ({self.current_receiver_id}) not available)')
+                self.debug(
+                    f"Starting transmission (receiver ({self.current_receiver_id}) not available)"
+                )
 
             self.is_transmitting = True
-            
-            #TODO: support packets of different lengths? For now this needs to be the same as the slot time.
-            #self.transmit_timer = self.current_packet.get_transmit_time_ms()
-            self.transmit_timeout = self.netstack.slot_length - self.netstack.slot_length * self.ack_fraction
-            self.timestepper.set_relative_timer(self.TIMER_KEY_TRANSMIT, self.transmit_timeout)
+
+            # TODO: support packets of different lengths? For now this needs to be the same as the slot time.
+            # self.transmit_timer = self.current_packet.get_transmit_time_ms()
+            self.transmit_timeout = (
+                self.netstack.slot_length
+                - self.netstack.slot_length * self.ack_fraction
+            )
+            self.timestepper.set_relative_timer(
+                self.TIMER_KEY_TRANSMIT, self.transmit_timeout
+            )
         elif channel_occupied:
-            self.debug('channel occupied, failed CCA')
+            self.debug("channel occupied, failed CCA")
             self.packet_sent(False)
 
     def execute(self):
-        """Called every execution cycle and is generally used to allow timer emulation
-        """
-        if((self.current_packet is None) and self.is_sending):
+        """Called every execution cycle and is generally used to allow timer emulation"""
+        if (self.current_packet is None) and self.is_sending:
             self.debug("Packet of NoneType in imac execute() while in sending mode")
-        self.debug(f'execute')
+        self.debug("execute")
         if self.backing_off:
             if self.time_module.timer_expired(self.TIMER_KEY_BACKOFF):
                 self.backing_off = False
-                self.debug('Backoff timer expired')
+                self.debug("Backoff timer expired")
                 self.packet_to_ack = None
                 if self.is_sending:
-                    self.debug('Returning to sending, turning off listening')
+                    self.debug("Returning to sending, turning off listening")
                     self.is_listening = False
                     self.is_receiving = False
                     self._try_transmit()
@@ -295,45 +319,68 @@ class iMAC(MAC):
         elif self.is_sending and not self.is_transmitting and not self.is_receiving:
             # If we're sending but not transmitting, try starting a transmission
             self._try_transmit()
-                
+
         if self.is_transmitting:
-            if not self.waiting_for_ack and self.timestepper.timer_expired(self.TIMER_KEY_TRANSMIT):
+            if not self.waiting_for_ack and self.timestepper.timer_expired(
+                self.TIMER_KEY_TRANSMIT
+            ):
                 # Data packet is done transmitting
-                if self.netstack.physical.packet_received_on_neighbor(self.current_receiver_id, self.current_packet, self.netstack.addr): #TODO:
-                    self.debug('Finished transmission (success! waiting for ack...)')
+                if self.netstack.physical.packet_received_on_neighbor(
+                    self.current_receiver_id, self.current_packet, self.netstack.addr
+                ):  # TODO:
+                    self.debug("Finished transmission (success! waiting for ack...)")
                     self.ack_incoming = True
                 else:
-                    self.debug('Finished transmission (failure, waiting for ack anyway)')
+                    self.debug(
+                        "Finished transmission (failure, waiting for ack anyway)"
+                    )
                     self.ack_incoming = False
                 ack_timeout = self.netstack.slot_length * self.ack_fraction
-                self.timestepper.set_relative_timer(self.TIMER_KEY_TRANSMIT, ack_timeout)
+                self.timestepper.set_relative_timer(
+                    self.TIMER_KEY_TRANSMIT, ack_timeout
+                )
                 self.waiting_for_ack = True
 
-            elif self.waiting_for_ack and self.timestepper.timer_expired(self.TIMER_KEY_TRANSMIT):
+            elif self.waiting_for_ack and self.timestepper.timer_expired(
+                self.TIMER_KEY_TRANSMIT
+            ):
                 # Done waiting for ack
                 self.waiting_for_ack = False
                 self.is_transmitting = False
                 # Reset framed status so we get a fresh framing if we have to transmit this packet again
                 self.current_packet.framed = False
                 # Check if the reception was successful... simulation equivalent of the ack
-                ack = self.netstack.physical.get_ack_from_neighbor(self.current_receiver_id) #TODO
+                ack = self.netstack.physical.get_ack_from_neighbor(
+                    self.current_receiver_id
+                )  # TODO
                 if ack:
-                    if ack.seqno == self.current_packet.seqno and ((ack.source_id == self.current_packet.next_hop) or (ack.source_id == self.current_packet.destination_id) or (self.current_packet.next_hop == self.netstack.BROADCAST_ADDRESS)):
-                        self.debug(f'Ack received')
+                    if ack.seqno == self.current_packet.seqno and (
+                        (ack.source_id == self.current_packet.next_hop)
+                        or (ack.source_id == self.current_packet.destination_id)
+                        or (
+                            self.current_packet.next_hop
+                            == self.netstack.BROADCAST_ADDRESS
+                        )
+                    ):
+                        self.debug("Ack received")
                         self.stats.increment(StatType.MAC_ACKS_RECEIVED)
                         self.netstack.parse(ack)
                         self.is_sending = False
                         self.packet_sent(True)
                     else:
-                        self.debug(f'Received an ack for the wrong packet! seqno(rx, expected): {ack.seqno},{self.current_packet.seqno}; ack source_id: {ack.source_id}; current packet(next hop, destination): {self.current_packet.next_hop},{self.current_packet.destination_id} ||| {self.netstack.physical.get_neighbors()}')
+                        self.debug(
+                            f"Received an ack for the wrong packet! seqno(rx, expected): {ack.seqno},{self.current_packet.seqno}; ack source_id: {ack.source_id}; current packet(next hop, destination): {self.current_packet.next_hop},{self.current_packet.destination_id} ||| {self.netstack.physical.get_neighbors()}"
+                        )
                 else:
                     if self.ack_incoming:
-                        self.debug(f'Expected ack not received, did the other node die?')
-                    self.debug(f'No ack')
-                    #self.is_listening = True
+                        self.debug(
+                            "Expected ack not received, did the other node die?"
+                        )
+                    self.debug("No ack")
+                    # self.is_listening = True
                 self.ack_incoming = False
                 if self.is_sending:
                     self._try_transmit()
 
     def __str__(self):
-        return f'iMAC'
+        return "iMAC"

@@ -1,13 +1,13 @@
 from typing import Dict, Tuple
 from simpy import Interrupt
 from simpy.core import SimTime, Environment, Process
-from simpy.events import Timeout
 
 from lure.lure_logger import Loggable
 
+
 class Timestepper(Loggable):
-    """Controls the progression of simulation time using the SimPy framework
-    """
+    """Controls the progression of simulation time using the SimPy framework"""
+
     def __init__(self):
         self._timers: Dict[str, SimTime] = dict()
         self.process: Process = None
@@ -31,7 +31,7 @@ class Timestepper(Loggable):
         try:
             return self.simpy_env.now >= self._timers[key]
         except KeyError:
-            self.warning(f'Timer {key} not found.')
+            self.warning(f"Timer {key} not found.")
             return False
 
     def cancel_timer(self, key: str):
@@ -52,7 +52,7 @@ class Timestepper(Loggable):
         """
 
         # If the new time is now the earliest time, we should add a new timeout event.
-        self.debug(f'Setting {key} with {t}')
+        self.debug(f"Setting {key} with {t}")
         self._timers[key] = self.simpy_env.now + t
 
         if self.process is not None:
@@ -60,9 +60,9 @@ class Timestepper(Loggable):
             if min_t == self._timers[key]:
                 try:
                     self.process.interrupt()
-                    self.debug('Interrupting process.')
+                    self.debug("Interrupting process.")
                 except RuntimeError as e:
-                    self.debug(f'Tried to interrupt self {e}')
+                    self.debug(f"Tried to interrupt self {e}")
 
     def _find_next_timestep(self) -> Tuple[str, SimTime]:
         """Finds the next timer to expire
@@ -89,17 +89,15 @@ class Timestepper(Loggable):
         self.process = process
         while True:
             key, time = self._find_next_timestep()
-            self.debug(f'Yielding for {time - self.simpy_env.now}')
+            self.debug(f"Yielding for {time - self.simpy_env.now}")
             try:
                 yield self.simpy_env.timeout(time - self.simpy_env.now)
-                self.debug('Timed out normally.')
+                self.debug("Timed out normally.")
                 key, time = self._find_next_timestep()
                 if key is None or self._timers[key] == time:
                     break
                 else:
-                    self.debug('False alarm, continuing to yield.')
+                    self.debug("False alarm, continuing to yield.")
             except Interrupt:
-                self.debug(f'Interrupted timeout.')
+                self.debug("Interrupted timeout.")
                 break
-
-

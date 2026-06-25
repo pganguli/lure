@@ -1,6 +1,7 @@
 from lure.config.configuration import Config
 from lure.node.time.clock import Clock
 
+
 class ActiveClock(Clock):
     """An object representing the active clock for a node, i.e., the clock that runs when the node is on."""
 

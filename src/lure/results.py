@@ -1,26 +1,26 @@
 import pickle
-from typing import Hashable, List, Any
+from typing import Hashable, List
 
 from lure.node.stats import Stats
 
-LURE_RESULTS_FILENAME = 'lure_results.p'
-SIMULATION_RESULT_FILENAME = 'results.p'
+LURE_RESULTS_FILENAME = "lure_results.p"
+SIMULATION_RESULT_FILENAME = "results.p"
+
 
 class SimulationResult:
-    
     def __init__(self, output_dir: str, seed: int):
         super().__init__()
         self.seed = seed
         self.results: List[Stats] = None
-        self.results_filename = f'{output_dir}/{self.seed}/{SIMULATION_RESULT_FILENAME}'
+        self.results_filename = f"{output_dir}/{self.seed}/{SIMULATION_RESULT_FILENAME}"
 
     def write(self):
-        with open(self.results_filename, 'wb') as f:
+        with open(self.results_filename, "wb") as f:
             pickle.dump(self.results, f)
 
     def _open(self):
         if self.results is None:
-            with open(self.results_filename, 'rb') as f:
+            with open(self.results_filename, "rb") as f:
                 self.results = pickle.load(f)
 
     def _close(self):
@@ -47,8 +47,8 @@ class SimulationResult:
     def __exit__(self, exception_type, exception_value, exception_traceback):
         self._close()
 
-class SeriesResult:
 
+class SeriesResult:
     def __init__(self, key: str, output_dir: str, plot_config: dict = dict()):
         self.key = key
         self.plot_config = plot_config
@@ -62,7 +62,9 @@ class SeriesResult:
     def add_simulation(self, x_value: Hashable, seed: int):
         if x_value not in self.sim_results:
             self.sim_results[x_value] = []
-        self.sim_results[x_value].append(SimulationResult(f'{self.output_dir}/{x_value}', seed))
+        self.sim_results[x_value].append(
+            SimulationResult(f"{self.output_dir}/{x_value}", seed)
+        )
 
     def items(self):
         return self.sim_results.items()
@@ -71,7 +73,7 @@ class SeriesResult:
         self._keys = self.x_values
         self._i = 0
         return self
-    
+
     def __next__(self):
         try:
             next = self._i
@@ -80,8 +82,8 @@ class SeriesResult:
         except IndexError:
             raise StopIteration
 
+
 class ExperimentResult:
-    
     def __init__(self):
         self.series_results: dict[str, SeriesResult] = {}
 
@@ -95,7 +97,7 @@ class ExperimentResult:
         self._keys = [k for k in self.series_results.keys()]
         self._i = 0
         return self
-    
+
     def __next__(self):
         try:
             next = self._i
@@ -104,8 +106,8 @@ class ExperimentResult:
         except IndexError:
             raise StopIteration
 
-class LureResults:
 
+class LureResults:
     def __init__(self):
         self.experiment_results: List[ExperimentResult] = []
 
@@ -113,7 +115,7 @@ class LureResults:
         self.experiment_results.append(experiment_result)
 
     def write(self, results_dir: str):
-        with open(f'{results_dir}/{LURE_RESULTS_FILENAME}', 'wb') as f:
+        with open(f"{results_dir}/{LURE_RESULTS_FILENAME}", "wb") as f:
             pickle.dump(self, f)
 
     def __iter__(self):

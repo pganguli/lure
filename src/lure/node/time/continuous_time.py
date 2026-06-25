@@ -4,13 +4,17 @@ from lure.node.stats import Stats, StatType, StatsProvider
 from lure.node.time.time import TimeModule
 from lure.node.time.persistent_clock import PersistentClock
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from lure.node.sensor_node import SensorNode
+
 
 class ContinuousTimeModule(TimeModule):
     def __init__(self, config: Config):
         super().__init__(config)
-        self.persistent_clock: PersistentClock = Config.instantiate_from_dict(config.config["persistent_clock"], 'lure.node.time')
+        self.persistent_clock: PersistentClock = Config.instantiate_from_dict(
+            config.config["persistent_clock"], "lure.node.time"
+        )
         self.cont_local_time = 0
         self.is_dead_period = False
         self.last_pclk_est = 0
@@ -19,8 +23,7 @@ class ContinuousTimeModule(TimeModule):
         self.TS_KEY = "timestamp"
         self.is_root = False
 
-
-    def initialize(self, node: 'SensorNode'):
+    def initialize(self, node: "SensorNode"):
         super().initialize(node)
         self.node_id = node.node_id
 
@@ -36,7 +39,7 @@ class ContinuousTimeModule(TimeModule):
         """
         The `boot` function estimates the off-time of a clock and updates the continuous local time and
         statistics.
-        
+
         :param t: The parameter "t" in the "boot" method represents the current off-time. It is an integer value
         that indicates the current time in some unit of measurement (e.g., seconds, milliseconds, etc.)
         :type t: int
@@ -44,27 +47,31 @@ class ContinuousTimeModule(TimeModule):
         self._last_update = self.timestepper.simpy_env.now
         self.active_clock.reset()
         # Estimate off-time with persistent clock
-        self.last_pclk_est, self.is_dead_period, self.max_meas_time = self.persistent_clock.get_est_offtimes(t)
+        self.last_pclk_est, self.is_dead_period, self.max_meas_time = (
+            self.persistent_clock.get_est_offtimes(t)
+        )
         self.debug(f"Node: {self.node_id}, Est pclk time: {self.last_pclk_est}")
         if self.is_dead_period:
             self.stats.time_series_append(StatType.CLK_DEAD_PERIOD, None)
         # Append estimated off-time from pclk and continuous local time for stats
         self.stats.time_series_append(StatType.PCLK_EST_TIME, self.last_pclk_est)
-        
+
     def execute(self):
         """
         The function updates the local time based on the difference between the current time and the last
         update time.
         """
         if self._last_update is not None:
-            self.cont_local_time += self.active_clock.update(self.timestepper.simpy_env.now - self._last_update)
+            self.cont_local_time += self.active_clock.update(
+                self.timestepper.simpy_env.now - self._last_update
+            )
         self._last_update = self.timestepper.simpy_env.now
 
     def frame(self, packet: Packet) -> bool:
         """
         The frame function sets the header of a packet with a time stamp if the node id is 0, and returns
         True, otherwise it returns False.
-        
+
         :param packet: The `packet` parameter is an instance of the `Packet` class. It represents the packet
         that is being processed by the `frame` method
         :type packet: Packet
@@ -76,13 +83,13 @@ class ContinuousTimeModule(TimeModule):
             packet.set_header(self.TS_KEY, self.cont_local_time, 4)
             self.debug(f"Sent Time Stamp {self.cont_local_time}")
             return True
-        else: 
+        else:
             return False
 
     def parse(self, packet: Packet) -> bool:
         """
         The parse function takes a packet as input and returns False. Called for every incoming packet. Use this to pop headers out of the packet.
-        
+
         :param packet: The parameter "packet" is of type "Packet". It is likely an object that represents a
         network packet or a data packet
         :type packet: Packet

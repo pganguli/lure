@@ -1,16 +1,17 @@
 from typing import Any, Dict, TYPE_CHECKING
 from lure.node.node_state import NodeState
+
 if TYPE_CHECKING:
     from lure.node.sensor_node import SensorNode
 from lure.config.configuration import Config
-from lure.lure_logger import LogLevel, Loggable, LureLogger
+from lure.lure_logger import LogLevel, LureLogger
 from lure.node.lmp.lmp import LMP, LMPConfigKey
 from lure.node.net.packet import Packet
 from lure.node.stats import Stats, StatsProvider
 
+
 class MultiLMP(LMP):
-    """A LMP that can ve configured to contain multiple LMPs
-    """
+    """A LMP that can ve configured to contain multiple LMPs"""
 
     def __init__(self, config: Config):
         super().__init__(config)
@@ -20,14 +21,16 @@ class MultiLMP(LMP):
 
         try:
             for k, v in config.config["lmps"].items():
-                self.lmps[k] = Config.instantiate_from_dict(v, 'lure.node.lmp')
+                self.lmps[k] = Config.instantiate_from_dict(v, "lure.node.lmp")
                 if not self.current_lmp:
                     self.current_lmp = self.lmps[k]
                     self.current_lmp_key = k
         except:
-            print('Unable to parse MultiLMP configuration. Should contain a parameter "lmps" that is a dictionary of LMP dictionaries.')
+            print(
+                'Unable to parse MultiLMP configuration. Should contain a parameter "lmps" that is a dictionary of LMP dictionaries.'
+            )
 
-    def initialize(self, node: 'SensorNode'):
+    def initialize(self, node: "SensorNode"):
         """Initialize with the simulation
 
         :param node: The node this LMP belongs to
@@ -50,7 +53,7 @@ class MultiLMP(LMP):
                 self.current_lmp = self.lmps[value]
                 self.current_lmp_key = value
             except KeyError:
-                self.debug(f'LMP {value} not found in LMP dict.')
+                self.debug(f"LMP {value} not found in LMP dict.")
         else:
             self.current_lmp.set_config(key, value)
 
@@ -68,8 +71,7 @@ class MultiLMP(LMP):
         return self.current_lmp.get_config(key)
 
     def boot(self):
-        """Called on node boot
-        """
+        """Called on node boot"""
         self.current_lmp.boot()
 
     def enable(self, lock: bool = False):
@@ -81,10 +83,9 @@ class MultiLMP(LMP):
         self.current_lmp.enable(lock=lock)
 
     def disable(self):
-        """Disables the LMP (early-die functionality)
-        """
+        """Disables the LMP (early-die functionality)"""
         self.current_lmp.disable()
-        
+
     def execute(self) -> NodeState:
         """Called every execution cycle (1 ms)
 
@@ -94,7 +95,7 @@ class MultiLMP(LMP):
         return self.current_lmp.execute()
 
     def __str__(self):
-        return 'MultiLMP'
+        return "MultiLMP"
 
     def register_log(self, logger: LureLogger, log_level: LogLevel, tag: str):
         """Overrides :py:meth:`lure.lure_logger.Loggable.register_log` for this object

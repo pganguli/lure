@@ -1,19 +1,30 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Dict, Hashable, List, Tuple, Union
+from typing import Any, Dict, Hashable, List
+
 
 class PacketType(Enum):
-    """The type assigned to a packet. Currently supports DATA, ACK, and CONTROL packets.
-    """
+    """The type assigned to a packet. Currently supports DATA, ACK, and CONTROL packets."""
+
     DATA = 0
     ACK = 1
     CONTROL = 2
 
-class Packet:
-    """Packet that gets sent during the simulation
-    """
 
-    def __init__(self, seqno: int, source_id: int, destination_id: int, payload='', packet_type: PacketType = PacketType.DATA, slot_length: int = None, ack_fraction: float = 0.2, gen_time: int = None):
+class Packet:
+    """Packet that gets sent during the simulation"""
+
+    def __init__(
+        self,
+        seqno: int,
+        source_id: int,
+        destination_id: int,
+        payload="",
+        packet_type: PacketType = PacketType.DATA,
+        slot_length: int = None,
+        ack_fraction: float = 0.2,
+        gen_time: int = None,
+    ):
         self.type = packet_type
         self.seqno = seqno
         self.source_id = source_id
@@ -32,7 +43,7 @@ class Packet:
         self.net_record["hop_record"]: List[(any, int)] = list()
         self.net_record["hop_record"].append((source_id, gen_time))
         self.net_record["arrive_time"] = None
-    
+
     @classmethod
     def from_packet(cls, packet):
         """A constructor that takes another packet as input to copy it
@@ -42,7 +53,16 @@ class Packet:
         :return: A copy of the packet parameter
         :rtype: Packet
         """
-        new_packet = cls(seqno=packet.seqno, source_id=packet.source_id, destination_id=packet.destination_id, payload=packet.payload, packet_type=packet.type, slot_length=packet.slot_length, ack_fraction=packet.ack_fraction, gen_time=packet.net_record["gen_time"])
+        new_packet = cls(
+            seqno=packet.seqno,
+            source_id=packet.source_id,
+            destination_id=packet.destination_id,
+            payload=packet.payload,
+            packet_type=packet.type,
+            slot_length=packet.slot_length,
+            ack_fraction=packet.ack_fraction,
+            gen_time=packet.net_record["gen_time"],
+        )
         # Copy next_hop
         new_packet.next_hop = packet.next_hop
         # Copy hop record
@@ -89,7 +109,7 @@ class Packet:
             return None
 
     def pop_header(self, key: Hashable):
-        """Pops the specified header 
+        """Pops the specified header
 
         :param key: Key value used to retrieve the correct header
         :type key: Hashable
@@ -130,10 +150,8 @@ class Packet:
         return f'[Packet from {self.source_id} to {self.destination_id}, seqno {self.seqno}, payload "{self.payload}"]'
 
 
-
 class Framer(ABC):
-    """An abstract class regulating framing and parsing packets
-    """
+    """An abstract class regulating framing and parsing packets"""
 
     @abstractmethod
     def frame(self, packet: Packet) -> bool:

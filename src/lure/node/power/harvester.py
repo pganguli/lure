@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 from simpy.core import SimTime
+
 if TYPE_CHECKING:
     from lure.node.sensor_node import SensorNode
 from lure.config.configuration import Config
@@ -8,9 +9,9 @@ from lure.lure_logger import Loggable
 
 from lure.node.stats import StatType, StatsProvider, Stats
 
+
 class Harvester(Loggable, StatsProvider):
-    """The energy harvester for a node
-    """
+    """The energy harvester for a node"""
 
     def __init__(self, config: Config):
         self.loss_factor = None
@@ -32,7 +33,7 @@ class Harvester(Loggable, StatsProvider):
             self.stats.time_series_append(StatType.HARVESTER_CHARGING_POWER, p)
             self._charging_power = p
 
-    def initialize(self, node: 'SensorNode', energy_model: EnergyModel):
+    def initialize(self, node: "SensorNode", energy_model: EnergyModel):
         """Initialize the harvester. Called before the simulation starts
 
         :param node: The node this harvester belongs to
@@ -45,8 +46,7 @@ class Harvester(Loggable, StatsProvider):
         self.charging_power = self.get_next_charging_power()
 
     def restart(self):
-        """Called when this node turns on
-        """
+        """Called when this node turns on"""
         pass
 
     def get_next_charging_power(self) -> float:
@@ -80,14 +80,13 @@ class Harvester(Loggable, StatsProvider):
         :rtype: SimTime
         """
         if self.charging_power == 0:
-            self.warning('Zero charging power at call to get_time_to_harvest().')
+            self.warning("Zero charging power at call to get_time_to_harvest().")
             return None
         return energy / self.charging_power
 
     def __str__(self):
-        return f'Harvester-{self.loss_factor}'
+        return f"Harvester-{self.loss_factor}"
 
     @StatsProvider.stats.setter
     def stats(self, stats: Stats):
         self._stats = stats
-

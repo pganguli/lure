@@ -1,7 +1,7 @@
 from lure.node.time.time import TimeModule
 
-class PerfectTimeModule(TimeModule):
 
+class PerfectTimeModule(TimeModule):
     # Returns a perfect continuous sense of time
     def time(self) -> int:
         """

@@ -13,6 +13,7 @@ from lure.lure_logger import Loggable
 from lure.node.net.packet import Framer, Packet
 from lure.node.stats import StatsProvider
 
+
 class LMPConfigKey(Enum):
     OTHER = 0
     ON_TIME_MS = 1
@@ -20,15 +21,15 @@ class LMPConfigKey(Enum):
     SLEEP_THRESHOLD = 3
     WAKE_THRESHOLD = 4
 
+
 class LMP(Framer, Loggable, StatsProvider):
-    """A Lifecycle Managment Protocol (LMP)
-    """
+    """A Lifecycle Managment Protocol (LMP)"""
 
     def __init__(self, config: Config):
         self.enabled: bool = False
         self.locked: bool = False
 
-    def initialize(self, node: 'SensorNode'):
+    def initialize(self, node: "SensorNode"):
         """Initialize with the simulation
 
         :param node: The node this LMP belongs to
@@ -59,8 +60,7 @@ class LMP(Framer, Loggable, StatsProvider):
         return None
 
     def boot(self):
-        """Called on node boot. Enables LMP
-        """
+        """Called on node boot. Enables LMP"""
         self.enable()
         self.locked = False
 
@@ -70,17 +70,16 @@ class LMP(Framer, Loggable, StatsProvider):
         :param lock: Set to True if the LMP should be locked, defaults to False
         :type lock: bool, optional
         """
-        self.debug('Enabled')
+        self.debug("Enabled")
         self.enabled = True
         self.locked = lock
 
     def disable(self):
-        """Disables the LMP if it is not locked
-        """
+        """Disables the LMP if it is not locked"""
         if not self.locked:
-            self.debug('Disabled')
+            self.debug("Disabled")
             self.enabled = False
-        
+
     def execute(self) -> NodeState:
         """Called every execution cycle (1 ms)
 
@@ -106,7 +105,7 @@ class LMP(Framer, Loggable, StatsProvider):
         return None
 
     def __str__(self):
-        return 'LMP'
+        return "LMP"
 
     def frame(self, packet: Packet) -> bool:
         """Abstract method of Framer. Do nothing by default. Could call set_header() on the Packet.
@@ -116,7 +115,7 @@ class LMP(Framer, Loggable, StatsProvider):
         :return: False
         :rtype: bool
         """
-        #self.debug(f'Framing packet of type {packet.type}')
+        # self.debug(f'Framing packet of type {packet.type}')
         return False
 
     def parse(self, packet: Packet) -> bool:
@@ -127,5 +126,5 @@ class LMP(Framer, Loggable, StatsProvider):
         :return: False
         :rtype: bool
         """
-        #self.debug(f'Parsing packet of type {packet.type}')
+        # self.debug(f'Parsing packet of type {packet.type}')
         return False
